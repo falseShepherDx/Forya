@@ -4,13 +4,13 @@ using System.Linq;
 
 public class PlayerHealth : NetworkBehaviour
 {
-    public NetworkVariable<bool> alive = new NetworkVariable<bool>(true);
+    NetworkVariable<bool> alive = new NetworkVariable<bool>(true);
 
     [ServerRpc(RequireOwnership = false)]
-    public void PlayerDiedServerRpc()
+    public void HandleDeathServerRpc()
     {
         if (!alive.Value) return;
-        
+
         alive.Value = false;
         gameObject.SetActive(false);
 
@@ -19,12 +19,10 @@ public class PlayerHealth : NetworkBehaviour
 
     void CheckWinner()
     {
-        var livingPlayers = FindObjectsOfType<PlayerHealth>().Count(player => player.alive.Value);
-
-        if (livingPlayers == 1)
+        var alivePlayers = FindObjectsOfType<PlayerHealth>().Where(x => x.alive.Value).ToList();
+        if (alivePlayers.Count == 1)
         {
-            var winner = FindObjectsOfType<PlayerHealth>().First(player => player.alive.Value);
-            Debug.Log($"Winner Client ID: {winner.OwnerClientId}");
+            Debug.Log($"Kazanan oyuncu: {alivePlayers[0].OwnerClientId}");
         }
     }
 }

@@ -3,26 +3,26 @@ using Unity.Netcode;
 
 public class CannonBall : NetworkBehaviour
 {
-    private void Start()
+    void Start()
     {
-        if (IsServer)
-            Invoke(nameof(DestroySelf), 5f); 
+            Invoke(nameof(DestroySelf), 5f); // 5 saniye içinde mutlaka yok olur
     }
 
     void OnCollisionEnter(Collision collision)
     {
         if (!IsServer) return;
 
-        if (collision.transform.TryGetComponent(out PlayerHealth player))
+        if (collision.gameObject.TryGetComponent<PlayerHealth>(out var player))
         {
-            player.PlayerDiedServerRpc();
+            player.HandleDeathServerRpc();
         }
 
-        DestroySelf();
+        
     }
 
     void DestroySelf()
     {
-        NetworkObject.Despawn(true);
+        if (NetworkObject.IsSpawned)
+            NetworkObject.Despawn(true);
     }
 }

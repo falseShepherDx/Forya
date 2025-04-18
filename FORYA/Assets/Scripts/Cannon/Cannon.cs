@@ -4,29 +4,29 @@ using System.Collections;
 
 public class Cannon : NetworkBehaviour
 {
-    [SerializeField] private GameObject cannonBallPrefab;
-    [SerializeField] private Transform shootPoint;
-    [SerializeField] private float shootForce = 25f;
+    public GameObject cannonBallPrefab;
+    public Transform firePoint;
+    public float shootForce = 20f;
 
     public override void OnNetworkSpawn()
     {
         if (IsServer)
-            StartCoroutine(ShootRoutine());
+            StartCoroutine(FireAndDestroyRoutine());
     }
 
-    IEnumerator ShootRoutine()
+    IEnumerator FireAndDestroyRoutine()
     {
+        yield return new WaitForSeconds(1f); // Cannon spawn olduktan 1 sn sonra ateş eder
+
+        GameObject cannonBallInstance = Instantiate(cannonBallPrefab, firePoint.position, Quaternion.identity);
+        NetworkObject ballNetworkObject = cannonBallInstance.GetComponent<NetworkObject>();
+        ballNetworkObject.Spawn(true); 
+
         
-        yield return new WaitForSeconds(1f);
+        Rigidbody rb = cannonBallInstance.GetComponent<Rigidbody>();
+        rb.AddForce(firePoint.right * shootForce, ForceMode.Impulse);
 
-        GameObject ball = Instantiate(cannonBallPrefab, shootPoint.position, shootPoint.rotation);
-        ball.GetComponent<NetworkObject>().Spawn(true);
-
-        Rigidbody rb = ball.GetComponent<Rigidbody>();
-        rb.linearVelocity = shootPoint.forward * shootForce;
-
-       
         yield return new WaitForSeconds(0.5f);
-        NetworkObject.Despawn();
+        NetworkObject.Despawn(true); 
     }
 }

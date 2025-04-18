@@ -4,23 +4,32 @@ using System.Collections;
 
 public class CannonSpawner : NetworkBehaviour
 {
-    [SerializeField] private Transform[] cannonSpawnPoints;
-    [SerializeField] private GameObject cannonPrefab;
+    public Transform[] spawnPoints;
+    public GameObject cannonPrefab;
+    [SerializeField] private Transform centerPoint;
+    
 
-    public override void OnNetworkSpawn()
+    private void Start()
     {
-        if (IsServer)
-            StartCoroutine(CannonSpawnRoutine());
+        if(IsServer)
+            StartCoroutine(SpawnRoutine());
     }
-
-    IEnumerator CannonSpawnRoutine()
+    IEnumerator SpawnRoutine()
     {
         while (true)
         {
-            Transform selectedPoint = cannonSpawnPoints[Random.Range(0, cannonSpawnPoints.Length)];
-            GameObject cannonInstance = Instantiate(cannonPrefab, selectedPoint.position, selectedPoint.rotation);
-            cannonInstance.GetComponent<NetworkObject>().Spawn();
-            yield return new WaitForSeconds(Random.Range(1.5f, 3f));
+            yield return new WaitForSeconds(2f); 
+            SpawnCannon();
         }
+    }
+
+    void SpawnCannon()
+    {
+        Transform selectedPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
+        Vector3 direction = (centerPoint.position - selectedPoint.position).normalized;
+        Quaternion rotation = Quaternion.LookRotation(direction) * Quaternion.Euler(0, -90, 0);
+
+        GameObject cannonInstance = Instantiate(cannonPrefab, selectedPoint.position, rotation);
+        cannonInstance.GetComponent<NetworkObject>().Spawn(true);
     }
 }
