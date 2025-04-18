@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4231980999706576860}
   - component: {fileID: 8364684036766545420}
-  - component: {fileID: 6564828803989464502}
+  - component: {fileID: 9222081445043910286}
   m_Layer: 0
   m_Name: Cannon
   m_TagString: Untagged
@@ -91,7 +91,7 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &6564828803989464502
+--- !u!114 &9222081445043910286
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -100,11 +100,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 9003811025085071008}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 773649899f9b7bb41b86a2af235f6162, type: 3}
+  m_Script: {fileID: 11500000, guid: 97fbb9531af33f54492e7189cf6b52f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 2762573744000537877, guid: 22b1838aa5f6f3349b99d75c58a6475d, type: 3}
-  firePoint: {fileID: 7464720512439903092}
+  ShowTopMostFoldoutHeaderGroup: 1
+  cannonBallPrefab: {fileID: 9003811025085071008}
+  shootPoint: {fileID: 7464720512439903092}
+  shootForce: 25
 --- !u!1001 &6891154627703191760
 PrefabInstance:
   m_ObjectHideFlags: 0

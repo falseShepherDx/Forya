@@ -1,32 +1,26 @@
-using System;
-using System.Collections.Generic;
-using Unity.Netcode;
 using UnityEngine;
-using Random = UnityEngine.Random;
+using Unity.Netcode;
+using System.Collections;
 
 public class CannonSpawner : NetworkBehaviour
 {
-    [SerializeField] private Transform[] spawnPoints;
-    [SerializeField] private GameObject cannonPf;
-    [SerializeField] private float shootingDelay=2f;
-    private float timer;
+    [SerializeField] private Transform[] cannonSpawnPoints;
+    [SerializeField] private GameObject cannonPrefab;
 
-    private void Update()
+    public override void OnNetworkSpawn()
     {
-        if (!IsServer) return;
-        timer += Time.deltaTime;
-        if (timer >= shootingDelay)
-        {
-            timer = 0;
-            SpawnCannon();
-        }
+        if (IsServer)
+            StartCoroutine(CannonSpawnRoutine());
     }
 
-    private void SpawnCannon()
+    IEnumerator CannonSpawnRoutine()
     {
-        Transform point=spawnPoints[Random.Range(0,spawnPoints.Length)];
-        GameObject cannon = Instantiate(cannonPf, point.position, point.rotation);
-        cannon.GetComponent<NetworkObject>().Spawn();
-        
+        while (true)
+        {
+            Transform selectedPoint = cannonSpawnPoints[Random.Range(0, cannonSpawnPoints.Length)];
+            GameObject cannonInstance = Instantiate(cannonPrefab, selectedPoint.position, selectedPoint.rotation);
+            cannonInstance.GetComponent<NetworkObject>().Spawn();
+            yield return new WaitForSeconds(Random.Range(1.5f, 3f));
+        }
     }
 }
