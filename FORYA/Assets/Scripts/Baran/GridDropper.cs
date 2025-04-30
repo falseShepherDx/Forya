@@ -39,7 +39,7 @@ public class GridDropper : NetworkBehaviour
             dropTimer = 0;  
         }
     }
-    void Update()
+    void Update()                                   //Update içinde yapmak yerie Coroutine ile zamaný yönetmek çok daha verimli olacak
     {
         if (IsServer)
         {
