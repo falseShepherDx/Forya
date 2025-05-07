@@ -9,18 +9,34 @@ public class NetworkUI : MonoBehaviour
 
     void Awake()
     {
+        Debug.Log("Awake: NetworkManager Singleton => " + NetworkManager.Singleton);
+        Debug.Log("Awake: hostButton => " + hostButton);
+
+
         hostButton.onClick.AddListener(StartHost);
         clientButton.onClick.AddListener(StartClient);
     }
 
     private void StartHost()
     {
+        if (NetworkManager.Singleton == null)
+        {
+            Debug.LogError("NetworkManager not found in scene");
+            return;
+        }
+
         NetworkManager.Singleton.StartHost();
         HideButtons();
     }
 
     private void StartClient()
     {
+        if (NetworkManager.Singleton == null)
+        {
+            Debug.LogError("NetworkManager not found in scene");
+            return;
+        }
+
         NetworkManager.Singleton.StartClient();
         HideButtons();
     }

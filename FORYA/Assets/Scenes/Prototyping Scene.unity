@@ -508,8 +508,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101078192}
-  - component: {fileID: 101078191}
   - component: {fileID: 101078190}
+  - component: {fileID: 101078193}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -546,7 +546,22 @@ MonoBehaviour:
     PacketDelayMS: 0
     PacketJitterMS: 0
     PacketDropRate: 0
---- !u!114 &101078191
+--- !u!4 &101078192
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 101078189}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &101078193
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -565,7 +580,7 @@ MonoBehaviour:
     PlayerPrefab: {fileID: 1463297777687957831, guid: 1619eb8c8b4232f4baf4dc2b7fb29fa5, type: 3}
     Prefabs:
       NetworkPrefabsLists:
-      - {fileID: 11400000, guid: ab9d67e13a719f84781fe64734b5fda8, type: 2}
+      - {fileID: 11400000, guid: 5a838f7b0857512448b11ef6092d354f, type: 2}
     TickRate: 30
     ClientConnectionBufferTimeout: 10
     ConnectionApproval: 0
@@ -589,21 +604,6 @@ MonoBehaviour:
     OldPrefabList: []
   RunInBackground: 1
   LogLevel: 1
---- !u!4 &101078192
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101078189}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &262215875
 GameObject:
   m_ObjectHideFlags: 0
@@ -1160,8 +1160,11 @@ MonoBehaviour:
   - {fileID: 1891496442}
   - {fileID: 1348629322}
   - {fileID: 1387450917}
-  cannonPrefab: {fileID: 9117568082858540255, guid: 49d34be6d4f5d504e92dcc5a8d833e46, type: 3}
   centerPoint: {fileID: 1617820464}
+  cannonPrefab: {fileID: 9117568082858540255, guid: 49d34be6d4f5d504e92dcc5a8d833e46, type: 3}
+  spawnInterval: 2
+  difficultyRampInterval: 20
+  maxSimultaneousSpawns: 3
 --- !u!4 &427841867
 Transform:
   m_ObjectHideFlags: 0
