@@ -26,6 +26,8 @@ public class PlayerMovement_B : NetworkBehaviour
     private Vector2 moveInput;
     private bool jumpInput;
 
+
+    [SerializeField] GameObject deathParticle;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -46,7 +48,6 @@ public class PlayerMovement_B : NetworkBehaviour
             rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
 
-            AddPlayerToUIClientRpc();
         }
 
         // E�er bu obje yerel oyuncuya ait de�ilse, hareket ve input i�lemleri kapat�l�r
@@ -61,16 +62,6 @@ public class PlayerMovement_B : NetworkBehaviour
         
     }
 
-    [ClientRpc]
-    void AddPlayerToUIClientRpc()
-    {
-        UIManager.instance.AddPlayer();
-    }
-    [ClientRpc]
-    void RemovePlayerFromUIClientRpc()
-    {
-        UIManager.instance.RemovePlayer();
-    }
     private void OnEnable()
     {
         inputActions.Player.Enable();
@@ -147,17 +138,26 @@ public class PlayerMovement_B : NetworkBehaviour
         return Physics.Raycast(transform.position + Vector3.up * 0.1f, Vector3.down, groundCheckDistance, groundLayer);
     }
 
-
-    public void Dead()
+    [ServerRpc(RequireOwnership =false)]
+    public void DeadServerRPC()
     {
-        RemovePlayerFromUIClientRpc();
+        ShowDeathEffectClientRPC(transform.position);
         GetComponent<NetworkObject>().Despawn();
+    }
+
+    [ClientRpc]
+    void ShowDeathEffectClientRPC(Vector3 transform)
+    {
+        if (deathParticle != null)
+        {
+            Instantiate(deathParticle, transform, Quaternion.identity);
+        }
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("deadLine"))
         {
-            Dead();
+            DeadServerRPC();
          
         }
     }
