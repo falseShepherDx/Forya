@@ -7258,7 +7258,8 @@ MonoBehaviour:
     NetworkTransport: {fileID: 590717347}
     PlayerPrefab: {fileID: 1463297777687957831, guid: 918a3d3d4e1153b49a2315e2d21021f6, type: 3}
     Prefabs:
-      NetworkPrefabsLists: []
+      NetworkPrefabsLists:
+      - {fileID: 11400000, guid: ab9d67e13a719f84781fe64734b5fda8, type: 2}
     TickRate: 30
     ClientConnectionBufferTimeout: 10
     ConnectionApproval: 0
@@ -9479,6 +9480,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   networkCanvas: {fileID: 833907452}
+  lobbyCanvas: {fileID: 0}
+  nameField: {fileID: 0}
+  warnerText: {fileID: 0}
 --- !u!1 &890624862
 GameObject:
   m_ObjectHideFlags: 0
