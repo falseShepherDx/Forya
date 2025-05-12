@@ -29,6 +29,8 @@ public class PlayerMovement : NetworkBehaviour
     {
         rb = GetComponent<Rigidbody>();
         inputActions = new PlayerControls();
+        rb.constraints = RigidbodyConstraints.FreezeRotationX | 
+                         RigidbodyConstraints.FreezeRotationZ;
     }
 
     public override void OnNetworkSpawn()
