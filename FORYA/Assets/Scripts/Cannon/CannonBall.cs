@@ -6,7 +6,7 @@ public class CannonBall : NetworkBehaviour
 {
     void Start()
     {
-            Invoke(nameof(DestroySelf), 5f); // 5 saniye içinde mutlaka yok olur
+          //  Invoke(nameof(DestroySelf), 5f); // 5 saniye içinde mutlaka yok olur
     }
 
     private void Awake()
@@ -20,18 +20,15 @@ public class CannonBall : NetworkBehaviour
     void OnCollisionEnter(Collision collision)
     {
         if (!IsServer) return;
-
-        if (collision.gameObject.TryGetComponent<PlayerHealth>(out var player))
+        if (collision.gameObject.TryGetComponent<PlayerHealth>(out var playerHealth))
         {
-            player.HandleDeathServerRpc();
+            playerHealth.KillServerRpc();
         }
-
-        
     }
 
-    void DestroySelf()
-    {
-        if (NetworkObject.IsSpawned)
-            NetworkObject.Despawn(true);
-    }
+    //void DestroySelf()
+    //{
+     //   if (NetworkObject.IsSpawned)
+       //     NetworkObject.Despawn(true);
+   // }
 }

@@ -4,25 +4,36 @@ using System.Linq;
 
 public class PlayerHealth : NetworkBehaviour
 {
-    NetworkVariable<bool> alive = new NetworkVariable<bool>(true);
-
+    [SerializeField] private float maxHealth = 100f;
+    private float currentHealth;
+    public override void OnNetworkSpawn()
+    {
+        currentHealth = maxHealth;
+    }
+    
     [ServerRpc(RequireOwnership = false)]
-    public void HandleDeathServerRpc()
+    public void TakeDamageServerRpc(float amount, ServerRpcParams rpcParams = default)
     {
-        if (!alive.Value) return;
-
-        alive.Value = false;
-        gameObject.SetActive(false);
-
-        CheckWinner();
+        if (currentHealth <= 0) return;
+        currentHealth -= amount;
+        if (currentHealth <= 0)
+            HandleDeathClientRpc();
+    }
+    [ServerRpc(RequireOwnership = false)]
+    public void KillServerRpc(ServerRpcParams rpcParams = default)
+    {
+        if (currentHealth <= 0) return;
+        currentHealth = 0;
+        HandleDeathClientRpc();
+    }
+    [ClientRpc]
+    private void HandleDeathClientRpc(ClientRpcParams rpcParams = default)
+    {
+        if (!IsOwner) return;
+        var deathHandler = GetComponent<PlayerDeathHandler>();
+        deathHandler?.OnDeath();
     }
 
-    void CheckWinner()
-    {
-        var alivePlayers = FindObjectsOfType<PlayerHealth>().Where(x => x.alive.Value).ToList();
-        if (alivePlayers.Count == 1)
-        {
-            Debug.Log($"Kazanan oyuncu: {alivePlayers[0].OwnerClientId}");
-        }
-    }
+
+
 }
