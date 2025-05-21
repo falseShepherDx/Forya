@@ -7,6 +7,8 @@ public class Cannon : NetworkBehaviour
     public GameObject cannonBallPrefab;
     public Transform firePoint;
     public float shootForce = 20f;
+    [SerializeField] private float shootAfterSpawnTime;
+    
 
     public override void OnNetworkSpawn()
     {
@@ -16,7 +18,7 @@ public class Cannon : NetworkBehaviour
 
     IEnumerator FireAndDestroyRoutine()
     {
-        yield return new WaitForSeconds(1f); // Cannon spawn olduktan 1 sn sonra ateş eder
+        yield return new WaitForSeconds(shootAfterSpawnTime); // Cannon spawn olduktan 1 sn sonra ateş eder
 
         GameObject cannonBallInstance = Instantiate(cannonBallPrefab, firePoint.position, Quaternion.identity);
         NetworkObject ballNetworkObject = cannonBallInstance.GetComponent<NetworkObject>();

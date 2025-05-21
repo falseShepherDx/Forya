@@ -251,7 +251,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1434141152
+  GlobalObjectIdHash: 4259293537
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -279,4 +279,5 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   cannonBallPrefab: {fileID: 2762573744000537877, guid: 22b1838aa5f6f3349b99d75c58a6475d, type: 3}
   firePoint: {fileID: 5746110601856368983}
-  shootForce: 30
+  shootForce: 35
+  shootAfterSpawnTime: 0.5
