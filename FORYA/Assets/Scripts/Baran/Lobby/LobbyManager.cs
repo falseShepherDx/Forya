@@ -13,6 +13,8 @@ public class LobbyManager : NetworkBehaviour
     [SerializeField] GameObject playerUIPrefab;
     public List<GameObject> panels;
 
+    [SerializeField] GameObject startButton;
+
     private NetworkList<FixedString32Bytes> syncedPlayerNames;
     private Dictionary<ulong, int> clientToIndex = new Dictionary<ulong, int>();
 
@@ -119,6 +121,20 @@ public class LobbyManager : NetworkBehaviour
         }
     }
 
+    public bool AreAllPlayersReady()
+    {
+        if (playerReadyStates.Count == 0) return false;
+
+        foreach (var ready in playerReadyStates) 
+        {
+            if (!ready)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
     private void OnPlayerListChanged(NetworkListEvent<FixedString32Bytes> changeEvent)
     {
         UpdateUI();
@@ -126,6 +142,10 @@ public class LobbyManager : NetworkBehaviour
     private void OnReadyListChanged(NetworkListEvent<bool> changeEvent)
     {
         UpdateUI();
+        if (IsHost && startButton != null)
+        {
+            startButton.SetActive(AreAllPlayersReady());
+        }
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -139,9 +159,8 @@ public class LobbyManager : NetworkBehaviour
 
         if (index >= 0 && index < playerReadyStates.Count)
         {
-            playerReadyStates[index] = true;
-            Debug.Log($"[Server] Player {senderId} is now READY.");
-            //UpdateUI();
+            playerReadyStates[index] = !playerReadyStates[index]; // toggle
+            Debug.Log($"[Server] Player {senderId} ready state is now {playerReadyStates[index]}.");
         }
     }
 }

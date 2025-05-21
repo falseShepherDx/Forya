@@ -44,7 +44,7 @@ public class NetworkUI_B : MonoBehaviour
 
         string nickName = nameField.text.Trim();
         PlayerPrefs.SetString("PlayerNickName", nickName);
-
+ 
         return true;
     }
     public void HideCanvas()
