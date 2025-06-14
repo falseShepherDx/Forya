@@ -9,21 +9,22 @@ public class NetworkUI_B : MonoBehaviour
     [SerializeField] TMP_InputField nameField;
     [SerializeField] TextMeshProUGUI warnerText;
 
-    public void StartHost()
+    public TMP_InputField joinCodeInput;
+    public async void StartHost()
     {
         if(!TakeName()) return;
-        NetworkManager.Singleton.StartHost();
+        string code = await RelayManager.instance.CreateRelayAsync();
+        Debug.Log("Oluþan Join Code: " + code);
         HideCanvas();
-        Debug.Log("Host Started");
     }
 
-    public void StartClient()
+    public async void StartClient()
     {
         if (!TakeName()) return;
 
-        NetworkManager.Singleton.StartClient();
-        HideCanvas();
-        Debug.Log("Client Started");
+        string joinCode = joinCodeInput.text;
+        bool success = await RelayManager.instance.JoinRelayAsync(joinCode);
+        if (success) HideCanvas();
     }
 
     public void StartServer()
@@ -44,7 +45,7 @@ public class NetworkUI_B : MonoBehaviour
 
         string nickName = nameField.text.Trim();
         PlayerPrefs.SetString("PlayerNickName", nickName);
-
+ 
         return true;
     }
     public void HideCanvas()

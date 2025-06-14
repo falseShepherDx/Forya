@@ -930,11 +930,11 @@ PlayerSettings:
   captureStartupLogs: {}
   activeInputHandler: 2
   windowsGamepadBackendHint: 0
-  cloudProjectId: 83bb6a8c-a374-4888-9fb7-bf4e8d315c22
+  cloudProjectId: 7b0b5d6f-ba56-483c-a75c-37aa19b195fb
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: FORYA
-  organizationId: fraternall
+  projectName: Forya
+  organizationId: el-barani
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}

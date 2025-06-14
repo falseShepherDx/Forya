@@ -25,5 +25,11 @@ public class LobbyButtons : NetworkBehaviour
         }
     }
 
+    public void StartGame()
+    {
+        NetworkManager.SceneManager.LoadScene("KýrýlanKarolar", UnityEngine.SceneManagement.LoadSceneMode.Single);
+
+
+    }
 
 }
