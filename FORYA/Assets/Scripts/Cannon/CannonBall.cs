@@ -4,11 +4,9 @@ using Unity.Netcode;
 
 public class CannonBall : NetworkBehaviour
 {
-    void Start()
-    {
-          //  Invoke(nameof(DestroySelf), 5f); // 5 saniye içinde mutlaka yok olur
-    }
-
+    [Header("Movement")]
+    [SerializeField] private float speed = 10f;
+    
     private void Awake()
     {
         int ballLayer = LayerMask.NameToLayer("CannonBall");
@@ -22,13 +20,12 @@ public class CannonBall : NetworkBehaviour
         if (!IsServer) return;
         if (collision.gameObject.TryGetComponent<PlayerHealth>(out var playerHealth))
         {
+            var hitPoint = collision.GetContact(0).point;
+            RoundManager.Instance.SpawnHitVFX(hitPoint);
             playerHealth.KillServerRpc();
         }
+        
     }
 
-    //void DestroySelf()
-    //{
-     //   if (NetworkObject.IsSpawned)
-       //     NetworkObject.Despawn(true);
-   // }
+    
 }

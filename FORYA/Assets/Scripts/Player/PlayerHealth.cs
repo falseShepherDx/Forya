@@ -1,39 +1,51 @@
+using System;
 using UnityEngine;
 using Unity.Netcode;
 using System.Linq;
 
 public class PlayerHealth : NetworkBehaviour
 {
-    [SerializeField] private float maxHealth = 100f;
-    private float currentHealth;
+    [SerializeField] private int maxHealth = 100;
+    public NetworkVariable<int> CurrentHealth = new NetworkVariable<int>();
+    private PlayerDeathHandler deathHandler;
+
+    private void Awake()
+    {
+        deathHandler = GetComponent<PlayerDeathHandler>();
+    }
+
     public override void OnNetworkSpawn()
     {
-        currentHealth = maxHealth;
+        if (IsServer)
+        {
+          
+            CurrentHealth.Value = maxHealth;
+        }
     }
-    
-    [ServerRpc(RequireOwnership = false)]
-    public void TakeDamageServerRpc(float amount, ServerRpcParams rpcParams = default)
+    public void TakeDamage(int amount)
     {
-        if (currentHealth <= 0) return;
-        currentHealth -= amount;
-        if (currentHealth <= 0)
-            HandleDeathClientRpc();
+        if (!IsServer) return;
+        if (CurrentHealth.Value <= 0) return;
+
+        CurrentHealth.Value -= amount;
+        if (CurrentHealth.Value <= 0)
+        {
+            CurrentHealth.Value = 0;
+            KillServerRpc();
+        }
     }
     [ServerRpc(RequireOwnership = false)]
     public void KillServerRpc(ServerRpcParams rpcParams = default)
     {
-        if (currentHealth <= 0) return;
-        currentHealth = 0;
+        if (CurrentHealth.Value <= 0) return;
+        CurrentHealth.Value = 0;
+        RoundManager.Instance.ReportDeath(OwnerClientId);
         HandleDeathClientRpc();
     }
     [ClientRpc]
-    private void HandleDeathClientRpc(ClientRpcParams rpcParams = default)
+    private void HandleDeathClientRpc()
     {
-        if (!IsOwner) return;
-        var deathHandler = GetComponent<PlayerDeathHandler>();
-        deathHandler?.OnDeath();
+        deathHandler.OnDeath();
     }
-
-
 
 }
