@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 8040010769886445315}
   - component: {fileID: 4059314134204800500}
   - component: {fileID: 480057187465697268}
+  - component: {fileID: -6618269991401387145}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -187,6 +188,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 100
+  CurrentHealth:
+    m_InternalValue: 0
 --- !u!114 &480057187465697268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,13 +202,62 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a76a0e32323ae1a4f8cf25341d80159c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bloodVFXGraphPrefab: {fileID: 1249195235102127693, guid: 79315ba7b9fa99349a3e4c97ff29cd8b, type: 3}
-  vfxDuration: 3
-  deathSfx: {fileID: 0}
-  destroyDelay: 5
   movementScript: {fileID: 3567042935722463256}
   rb: {fileID: 1070712606943332173}
-  playerCollider: {fileID: 8040010769886445315}
+  bloodVFXVariants:
+  - {fileID: 1249195235102127693, guid: 79315ba7b9fa99349a3e4c97ff29cd8b, type: 3}
+  vfxDuration: 3
+  audioSource: {fileID: 0}
+  deathSfxVariants: []
+  destroyDelay: 5
+--- !u!114 &-6618269991401387145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1463297777687957831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caa654d227e38d0488c625c2e07c3e24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  displayName:
+    m_InternalValue:
+      utf8LengthInBytes: 0
+      bytes:
+        offset0000:
+          byte0000: 0
+          byte0001: 0
+          byte0002: 0
+          byte0003: 0
+          byte0004: 0
+          byte0005: 0
+          byte0006: 0
+          byte0007: 0
+          byte0008: 0
+          byte0009: 0
+          byte0010: 0
+          byte0011: 0
+          byte0012: 0
+          byte0013: 0
+          byte0014: 0
+          byte0015: 0
+        byte0016: 0
+        byte0017: 0
+        byte0018: 0
+        byte0019: 0
+        byte0020: 0
+        byte0021: 0
+        byte0022: 0
+        byte0023: 0
+        byte0024: 0
+        byte0025: 0
+        byte0026: 0
+        byte0027: 0
+        byte0028: 0
+        byte0029: 0
 --- !u!1001 &4724196729563390714
 PrefabInstance:
   m_ObjectHideFlags: 0
