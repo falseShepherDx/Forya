@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using TMPro;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using Unity.Networking.Transport.Relay;
@@ -12,6 +13,7 @@ public class RelayManager : MonoBehaviour
 {
     public static RelayManager instance;
     public string lastJoinCode = "";
+    [SerializeField] TextMeshProUGUI joinCodeText;
 
     private void Awake()
     {
@@ -45,6 +47,7 @@ public class RelayManager : MonoBehaviour
         transport.SetRelayServerData(relayServerData);
 
         NetworkManager.Singleton.StartHost();
+        joinCodeText.text ="Join Code :"+ lastJoinCode;
         return joinCode;
     }
 
@@ -62,6 +65,7 @@ public class RelayManager : MonoBehaviour
 
             NetworkManager.Singleton.StartClient();
             Debug.Log("Joined Relay with code: " + joinCode);
+            joinCodeText.text = "Join Code: " + joinCode.ToString();
             return true;
         }
         catch (RelayServiceException ex)
