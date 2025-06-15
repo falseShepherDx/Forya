@@ -32,4 +32,10 @@ public class LobbyButtons : NetworkBehaviour
 
     }
 
+    public void CopyJoinCode()
+    {
+       GUIUtility.systemCopyBuffer = RelayManager.instance.lastJoinCode;
+        Debug.Log("Join Code Copied to Clipboard");
+    }
+
 }
