@@ -9,22 +9,21 @@ public class NetworkUI_B : MonoBehaviour
     [SerializeField] TMP_InputField nameField;
     [SerializeField] TextMeshProUGUI warnerText;
 
-    public TMP_InputField joinCodeInput;
-    public async void StartHost()
+    public void StartHost()
     {
         if(!TakeName()) return;
-        string code = await RelayManager.instance.CreateRelayAsync();
-        Debug.Log("Oluþan Join Code: " + code);
+        NetworkManager.Singleton.StartHost();
         HideCanvas();
+        Debug.Log("Host Started");
     }
 
-    public async void StartClient()
+    public void StartClient()
     {
         if (!TakeName()) return;
 
-        string joinCode = joinCodeInput.text;
-        bool success = await RelayManager.instance.JoinRelayAsync(joinCode);
-        if (success) HideCanvas();
+        NetworkManager.Singleton.StartClient();
+        HideCanvas();
+        Debug.Log("Client Started");
     }
 
     public void StartServer()
