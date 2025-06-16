@@ -10,8 +10,11 @@ public class CharacterSpawner : NetworkBehaviour
     {
         if (!IsServer) return;
 
-        // SADECE oyun sahnesinde �al��s�n
-        if (SceneManager.GetActiveScene().name != "K�r�lanKarolar" || SceneManager.GetActiveScene().name!="Cannon Circle") return;
+        if (SceneManager.GetActiveScene().name == "LobbyScene")
+        {
+            return;
+        }
+      
 
         foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
         {

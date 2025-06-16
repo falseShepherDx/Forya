@@ -1196,6 +1196,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 41f47382ff6079747a1d7df496fe8ad7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 975311919100133607}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 41f47382ff6079747a1d7df496fe8ad7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6986473660452555908}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 41f47382ff6079747a1d7df496fe8ad7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7697092697966572718}
   m_SourcePrefab: {fileID: 100100000, guid: 41f47382ff6079747a1d7df496fe8ad7, type: 3}
 --- !u!1 &9005057259424879112 stripped
 GameObject:
@@ -1214,7 +1220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1300141339
+  GlobalObjectIdHash: 973919145
   InScenePlacedSourceGlobalObjectIdHash: 973919145
   DeferredDespawnTick: 0
   Ownership: 1
@@ -1307,7 +1313,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9005057259424879112}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 985fd3e74068f614ba96de036927edb2, type: 3}
   m_Name: 
@@ -1430,3 +1436,40 @@ CapsuleCollider:
   m_Height: 1.5681661
   m_Direction: 1
   m_Center: {x: 0, y: 0.79559165, z: 0.18999998}
+--- !u!114 &6986473660452555908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9005057259424879112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1ab72126ac3fbe47bffaae88dbcdc0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  moveSpeed: 5
+  rotationSpeed: 10
+  airControlMultiplier: 0.3
+  jumpForce: 5
+  jumpCooldown: 0.5
+  gravityMultiplier: 2
+  groundCheckDistance: 0.3
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  deathParticle: {fileID: 1607639662943796, guid: a1a36200a3c61b34b9abfaed1373f4cc, type: 3}
+--- !u!114 &7697092697966572718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9005057259424879112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e43d78ba9534b04da009407961071dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
