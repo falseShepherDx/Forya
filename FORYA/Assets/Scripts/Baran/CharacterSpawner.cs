@@ -4,7 +4,8 @@ using UnityEngine.SceneManagement;
 
 public class CharacterSpawner : NetworkBehaviour
 {
-    [SerializeField] private GameObject playerPrefab;
+    [SerializeField] private GameObject[] playerPrefabs;
+    int playerIndex;
 
     public override void OnNetworkSpawn()
     {
@@ -20,17 +21,18 @@ public class CharacterSpawner : NetworkBehaviour
         {
             ulong clientId = client.ClientId;
 
-            // Eski objeyi sil
+     
             if (NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject != null)
             {
                 NetworkObject oldPlayerObj = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject;
-                oldPlayerObj.Despawn(true); // tamamen sil
+                oldPlayerObj.Despawn(true);
             }
 
-            // Yeni karakter do�ur
+            
             Vector3 spawnPos = SpawnManager.instance.GetSpawnPointForClient(clientId);
-            GameObject player = Instantiate(playerPrefab, spawnPos, Quaternion.identity);
+            GameObject player = Instantiate(playerPrefabs[playerIndex], spawnPos, Quaternion.identity);
             player.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId);
+            playerIndex++;
         }
     }
 }
