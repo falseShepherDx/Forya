@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -40,9 +41,17 @@ public class NetworkUIManager : NetworkBehaviour
 
     }
 
+    [Obsolete("Obsolete")]
     void OnPlayerCountChanged(int oldVal, int newVal)
     {
         playerCountText.text = playerCount.Value + " Player Alive!";
+
+        if (playerCount.Value <= 1)
+        {
+            var spawner = FindObjectOfType<CannonSpawner>();
+            if (spawner != null)
+                spawner.StopSpawning();
+        }
     }
 
 }
