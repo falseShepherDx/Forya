@@ -7157,7 +7157,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5655792675628984641, guid: d2c22861711e8a24796288579b22ce4e, type: 3}
       propertyPath: 'gameNames.Array.data[1]'
-      value: CannonBall
+      value: Cannon Circle
       objectReference: {fileID: 0}
     - target: {fileID: 5655792675628984641, guid: d2c22861711e8a24796288579b22ce4e, type: 3}
       propertyPath: 'gameImages.Array.data[0]'

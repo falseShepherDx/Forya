@@ -39,7 +39,6 @@ public class PlayerHealth : NetworkBehaviour
     {
         if (CurrentHealth.Value <= 0) return;
         CurrentHealth.Value = 0;
-        RoundManager.Instance.ReportDeath(OwnerClientId);
         HandleDeathClientRpc();
     }
     [ClientRpc]

@@ -10,8 +10,8 @@ public class CharacterSpawner : NetworkBehaviour
     {
         if (!IsServer) return;
 
-        // SADECE oyun sahnesinde çalýþsýn
-        if (SceneManager.GetActiveScene().name != "KýrýlanKarolar") return;
+        // SADECE oyun sahnesinde ï¿½alï¿½ï¿½sï¿½n
+        if (SceneManager.GetActiveScene().name != "Kï¿½rï¿½lanKarolar" || SceneManager.GetActiveScene().name!="Cannon Circle") return;
 
         foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
         {
@@ -24,7 +24,7 @@ public class CharacterSpawner : NetworkBehaviour
                 oldPlayerObj.Despawn(true); // tamamen sil
             }
 
-            // Yeni karakter doður
+            // Yeni karakter doï¿½ur
             Vector3 spawnPos = SpawnManager.instance.GetSpawnPointForClient(clientId);
             GameObject player = Instantiate(playerPrefab, spawnPos, Quaternion.identity);
             player.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId);

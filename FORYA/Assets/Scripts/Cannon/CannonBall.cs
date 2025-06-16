@@ -19,7 +19,6 @@ public class CannonBall : NetworkBehaviour
         if (collision.gameObject.TryGetComponent<PlayerHealth>(out var playerHealth))
         {
             var hitPoint = collision.GetContact(0).point;
-            RoundManager.Instance.SpawnHitVFX(hitPoint);
             playerHealth.KillServerRpc();
         }
         
