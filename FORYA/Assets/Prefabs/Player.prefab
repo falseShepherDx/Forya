@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 4059314134204800500}
   - component: {fileID: 480057187465697268}
   - component: {fileID: -6618269991401387145}
+  - component: {fileID: 3332379934322884981}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -79,6 +80,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   NetworkTransformExpanded: 0
+  AutoOwnerAuthorityTickOffset: 1
+  PositionInterpolationType: 0
+  RotationInterpolationType: 0
+  ScaleInterpolationType: 0
+  PositionLerpSmoothing: 1
+  PositionMaxInterpolationTime: 0.1
+  RotationLerpSmoothing: 1
+  RotationMaxInterpolationTime: 0.1
+  ScaleLerpSmoothing: 1
+  ScaleMaxInterpolationTime: 0.1
   AuthorityMode: 1
   TickSyncChildren: 0
   UseUnreliableDeltas: 0
@@ -258,6 +269,28 @@ MonoBehaviour:
         byte0027: 0
         byte0028: 0
         byte0029: 0
+--- !u!95 &3332379934322884981
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1463297777687957831}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 41f47382ff6079747a1d7df496fe8ad7, type: 3}
+  m_Controller: {fileID: 9100000, guid: 20e27c2e2e9af62488c54f5913521135, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &4724196729563390714
 PrefabInstance:
   m_ObjectHideFlags: 0

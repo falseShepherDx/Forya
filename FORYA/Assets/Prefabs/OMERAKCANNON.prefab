@@ -277,7 +277,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  cannonBallPrefab: {fileID: 2762573744000537877, guid: 22b1838aa5f6f3349b99d75c58a6475d, type: 3}
+  cannonBallPrefab: {fileID: 8362081407942823256, guid: 096edad995d61ea45afa134933e124cc, type: 3}
   firePoint: {fileID: 5746110601856368983}
-  shootForce: 35
+  shootForce: 45
   shootAfterSpawnTime: 0.5

@@ -4,8 +4,6 @@ using Unity.Netcode;
 
 public class CannonBall : NetworkBehaviour
 {
-    [Header("Movement")]
-    [SerializeField] private float speed = 10f;
     
     private void Awake()
     {
