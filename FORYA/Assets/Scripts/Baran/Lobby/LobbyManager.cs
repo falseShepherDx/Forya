@@ -3,6 +3,7 @@ using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using Unity.Collections;
+using UnityEngine.UI;
 
 [DefaultExecutionOrder(-100)]
 public class LobbyManager : NetworkBehaviour
@@ -20,6 +21,19 @@ public class LobbyManager : NetworkBehaviour
 
     private NetworkList<bool> playerReadyStates;
 
+    public NetworkVariable<int> gameIndex = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+
+    [SerializeField] List<string> gameNames;
+    [SerializeField] List<string> gameDescriptions;
+    [SerializeField] List<Sprite> gameImages;
+    public int[] scenes;
+
+    [SerializeField] TextMeshProUGUI gameNameText;
+    [SerializeField] TextMeshProUGUI gameDescriptionText;
+    [SerializeField] Image gameImageUI;
+
+
+    [SerializeField] GameObject selectButtons;
     private void Awake()
     {
         syncedPlayerNames = new NetworkList<FixedString32Bytes>();
@@ -45,6 +59,14 @@ public class LobbyManager : NetworkBehaviour
             NetworkManager.OnClientDisconnectCallback += OnClientDisconnected;
 
         UpdateUI(); // herkes kendi UI’sini günceller
+
+        gameIndex.OnValueChanged += UpdateGameDisplay;
+        UpdateGameDisplay(0, gameIndex.Value);
+
+        if (IsHost)
+        {
+            selectButtons.SetActive(true);
+        }
     }
 
 
@@ -162,5 +184,38 @@ public class LobbyManager : NetworkBehaviour
             playerReadyStates[index] = !playerReadyStates[index]; // toggle
             Debug.Log($"[Server] Player {senderId} ready state is now {playerReadyStates[index]}.");
         }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ChangeGameIndexServerRpc(bool next)
+    {
+        int count = gameNames.Count;
+
+        if (count == 0) return;
+
+        int currentIndex = gameIndex.Value;
+        if (next)
+        {
+            currentIndex = (currentIndex + 1) % count;
+            Debug.Log("oyun +1");
+        }
+
+        else
+        {
+            currentIndex = (currentIndex - 1) % count;
+            Debug.Log("oyun +1");
+        }
+           
+
+        gameIndex.Value = currentIndex;
+    }
+
+    void UpdateGameDisplay(int oldIndex,int newIndex)
+    {
+        if (newIndex < 0 || newIndex >= gameNames.Count) return;
+
+        gameNameText.text= gameNames[newIndex];
+        gameDescriptionText.text= gameDescriptions[newIndex];
+        gameImageUI.sprite = gameImages[newIndex];  
     }
 }

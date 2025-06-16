@@ -47,7 +47,7 @@ public class RelayManager : MonoBehaviour
         transport.SetRelayServerData(relayServerData);
 
         NetworkManager.Singleton.StartHost();
-        joinCodeText.text ="Join Code :"+ lastJoinCode;
+        joinCodeText.text = lastJoinCode;
         return joinCode;
     }
 
@@ -65,7 +65,7 @@ public class RelayManager : MonoBehaviour
 
             NetworkManager.Singleton.StartClient();
             Debug.Log("Joined Relay with code: " + joinCode);
-            joinCodeText.text = "Join Code: " + joinCode.ToString();
+            joinCodeText.text = joinCode.ToString();
             return true;
         }
         catch (RelayServiceException ex)
