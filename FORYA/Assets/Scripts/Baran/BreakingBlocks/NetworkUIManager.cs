@@ -9,10 +9,7 @@ public class NetworkUIManager : NetworkBehaviour
     [SerializeField] TextMeshProUGUI playerCountText;
     private NetworkVariable<int> playerCount = new NetworkVariable<int>(0,NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
 
-    private void Awake()
-    {
-       
-    }
+  
 
     public override void OnNetworkSpawn()
     {
