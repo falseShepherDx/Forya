@@ -7450,7 +7450,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &590717347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7498,7 +7498,8 @@ MonoBehaviour:
     NetworkTransport: {fileID: 590717347}
     PlayerPrefab: {fileID: 1463297777687957831, guid: 918a3d3d4e1153b49a2315e2d21021f6, type: 3}
     Prefabs:
-      NetworkPrefabsLists: []
+      NetworkPrefabsLists:
+      - {fileID: 11400000, guid: 5a838f7b0857512448b11ef6092d354f, type: 2}
     TickRate: 30
     ClientConnectionBufferTimeout: 10
     ConnectionApproval: 0
