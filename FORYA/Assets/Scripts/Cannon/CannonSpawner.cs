@@ -21,6 +21,7 @@ public class CannonSpawner : NetworkBehaviour
     private float difficultyRampInterval = 30f;
     [SerializeField]
     private int maxSimultaneousSpawns = 3;
+    private bool isSpawning = true;
 
     public override void OnNetworkSpawn()
     {
@@ -38,7 +39,7 @@ public class CannonSpawner : NetworkBehaviour
 
     private IEnumerator SpawnRoutine()
     {
-        while (true)
+        while (isSpawning)
         {
             yield return new WaitForSeconds(spawnInterval);
             SpawnWave();
@@ -74,4 +75,9 @@ public class CannonSpawner : NetworkBehaviour
         var cannon = Instantiate(cannonPrefab, spawnPoint.position, rot);
         cannon.GetComponent<NetworkObject>().Spawn(true);
     }
+    public void StopSpawning()
+    {
+        isSpawning = false;
+    }
+
 }

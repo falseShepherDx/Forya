@@ -4,6 +4,7 @@ using Unity.Netcode;
 
 public class CannonBall : NetworkBehaviour
 {
+    [SerializeField] private PlayerMovement_B movementScript;
     
     private void Awake()
     {
@@ -19,7 +20,9 @@ public class CannonBall : NetworkBehaviour
         if (collision.gameObject.TryGetComponent<PlayerHealth>(out var playerHealth))
         {
             var hitPoint = collision.GetContact(0).point;
+            collision.gameObject.GetComponent<PlayerMovement_B>().DeadServerRPC();
             playerHealth.KillServerRpc();
+            
         }
         
     }

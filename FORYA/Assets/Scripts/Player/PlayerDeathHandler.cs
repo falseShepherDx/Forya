@@ -1,4 +1,5 @@
 using System.Collections;
+
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.VFX;  // ← VFX Graph API
@@ -20,10 +21,9 @@ public class PlayerDeathHandler : MonoBehaviour
 
     public void OnDeath()
     {
-        
         if (movementScript != null) movementScript.enabled = false;
         if (playerCol != null) playerCol.enabled = false;
-
+        
         
         if (rb != null)
         {
