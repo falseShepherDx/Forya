@@ -4,8 +4,18 @@ using UnityEngine.SceneManagement;
 
 public class CharacterSpawner : NetworkBehaviour
 {
-    [SerializeField] private GameObject playerPrefab;
+    public static CharacterSpawner instance;
 
+    [SerializeField] private GameObject[] playerPrefabs;
+    int playerIndex;
+
+
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else Destroy(gameObject);
+    }
     public override void OnNetworkSpawn()
     {
         if (!IsServer) return;
@@ -13,24 +23,26 @@ public class CharacterSpawner : NetworkBehaviour
         if (SceneManager.GetActiveScene().name == "LobbyScene")
         {
             return;
-        }
-      
+        }   
+    }
 
+    public void SpawnPlayers()
+    {
         foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
         {
             ulong clientId = client.ClientId;
 
-            // Eski objeyi sil
+
             if (NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject != null)
             {
                 NetworkObject oldPlayerObj = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject;
-                oldPlayerObj.Despawn(true); // tamamen sil
+                oldPlayerObj.Despawn(true);
             }
 
-            // Yeni karakter do�ur
             Vector3 spawnPos = SpawnManager.instance.GetSpawnPointForClient(clientId);
-            GameObject player = Instantiate(playerPrefab, spawnPos, Quaternion.identity);
+            GameObject player = Instantiate(playerPrefabs[playerIndex], spawnPos, Quaternion.identity);
             player.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId);
+            playerIndex++;
         }
     }
 }
