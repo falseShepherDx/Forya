@@ -42,6 +42,8 @@ public class CharacterSpawner : NetworkBehaviour
             Vector3 spawnPos = SpawnManager.instance.GetSpawnPointForClient(clientId);
             GameObject player = Instantiate(playerPrefabs[playerIndex], spawnPos, Quaternion.identity);
             player.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId);
+            Debug.Log($"Spawning player for clientId: {clientId}, prefab: {playerPrefabs[playerIndex].name}");
+
             playerIndex++;
         }
     }
