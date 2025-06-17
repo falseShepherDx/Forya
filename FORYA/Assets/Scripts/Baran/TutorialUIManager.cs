@@ -10,7 +10,7 @@ public class TutorialUIManager : NetworkBehaviour
     [SerializeField] TextMeshProUGUI countdown;
     [SerializeField] Animator animator;
 
-    private const int countdownSecond = 1;
+    private const int countdownSecond = 5;
 
     public override void OnNetworkSpawn()
     {
@@ -56,5 +56,6 @@ public class TutorialUIManager : NetworkBehaviour
     void RunAfterCanvas()
     {
         CharacterSpawner.instance.SpawnPlayers();
+        FindObjectOfType<CannonSpawner>().StartSpawning();
     }
 }
