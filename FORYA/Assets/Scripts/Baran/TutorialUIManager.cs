@@ -10,7 +10,7 @@ public class TutorialUIManager : NetworkBehaviour
     [SerializeField] TextMeshProUGUI countdown;
     [SerializeField] Animator animator;
 
-    private const int countdownSecond = 5;
+    private const int countdownSecond = 1;
 
     public override void OnNetworkSpawn()
     {
