@@ -1183,16 +1183,10 @@ PrefabInstance:
       addedObject: {fileID: 5946869455328358329}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 41f47382ff6079747a1d7df496fe8ad7, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4845174286129839469}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 41f47382ff6079747a1d7df496fe8ad7, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 5294828279978423989}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 41f47382ff6079747a1d7df496fe8ad7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6448691804204391952}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 41f47382ff6079747a1d7df496fe8ad7, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 7992511119742054962}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 41f47382ff6079747a1d7df496fe8ad7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 975311919100133607}
@@ -1304,31 +1298,8 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 1
---- !u!114 &4845174286129839469
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9005057259424879112}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 985fd3e74068f614ba96de036927edb2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  moveSpeed: 6.5
-  rotationSpeed: 8
-  airControlMultiplier: 0.2
-  jumpForce: 7.5
-  jumpCooldown: 0.5
-  gravityMultiplier: 1.6
-  groundCheckDistance: 1.2
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!114 &5294828279978423989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1357,62 +1328,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a76a0e32323ae1a4f8cf25341d80159c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementScript: {fileID: 0}
-  rb: {fileID: 0}
+  movementScript: {fileID: 6986473660452555908}
+  rb: {fileID: 5946869455328358329}
   bloodVFXVariants:
   - {fileID: 1249195235102127693, guid: 79315ba7b9fa99349a3e4c97ff29cd8b, type: 3}
   vfxDuration: 3
   audioSource: {fileID: 0}
   deathSfxVariants: []
   destroyDelay: 5
---- !u!114 &7992511119742054962
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9005057259424879112}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: caa654d227e38d0488c625c2e07c3e24, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  displayName:
-    m_InternalValue:
-      utf8LengthInBytes: 0
-      bytes:
-        offset0000:
-          byte0000: 0
-          byte0001: 0
-          byte0002: 0
-          byte0003: 0
-          byte0004: 0
-          byte0005: 0
-          byte0006: 0
-          byte0007: 0
-          byte0008: 0
-          byte0009: 0
-          byte0010: 0
-          byte0011: 0
-          byte0012: 0
-          byte0013: 0
-          byte0014: 0
-          byte0015: 0
-        byte0016: 0
-        byte0017: 0
-        byte0018: 0
-        byte0019: 0
-        byte0020: 0
-        byte0021: 0
-        byte0022: 0
-        byte0023: 0
-        byte0024: 0
-        byte0025: 0
-        byte0026: 0
-        byte0027: 0
-        byte0028: 0
-        byte0029: 0
 --- !u!136 &975311919100133607
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1449,13 +1372,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  moveSpeed: 5
-  rotationSpeed: 10
-  airControlMultiplier: 0.3
-  jumpForce: 5
+  moveSpeed: 6.5
+  rotationSpeed: 8
+  airControlMultiplier: 0.2
+  jumpForce: 6.5
   jumpCooldown: 0.5
-  gravityMultiplier: 2
-  groundCheckDistance: 0.3
+  gravityMultiplier: 1.8
+  groundCheckDistance: 0.6
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
