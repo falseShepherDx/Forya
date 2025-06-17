@@ -51,6 +51,7 @@ public class NetworkUIManager : NetworkBehaviour
             var spawner = FindObjectOfType<CannonSpawner>();
             if (spawner != null)
                 spawner.StopSpawning();
+            
         }
     }
 

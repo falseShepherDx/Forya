@@ -1333,12 +1333,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementScript: {fileID: 6986473660452555908}
   rb: {fileID: 5946869455328358329}
-  bloodVFXVariants: []
-  vfxDuration: 2.5
-  audioSource: {fileID: 8343273443340022910}
-  deathSfxVariants:
-  - {fileID: 8300000, guid: 9cab600d4c6efea43befea2ab065eaa1, type: 3}
-  destroyDelay: 5
 --- !u!136 &975311919100133607
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1376,9 +1370,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   moveSpeed: 6.5
-  rotationSpeed: 8
+  rotationSpeed: 10
   airControlMultiplier: 0.2
-  jumpForce: 6.5
+  jumpForce: 5
   jumpCooldown: 0.5
   gravityMultiplier: 1.8
   groundCheckDistance: 0.6
@@ -1388,6 +1382,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   isGround: 0
   deathParticle: {fileID: 1277154925287174, guid: 3b517eddec185dd4a830743a742ad00b, type: 3}
+  deathSound: {fileID: 0}
 --- !u!114 &7697092697966572718
 MonoBehaviour:
   m_ObjectHideFlags: 0
