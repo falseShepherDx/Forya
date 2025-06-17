@@ -80,9 +80,6 @@ PrefabInstance:
       addedObject: {fileID: 6345626101483044651}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c89b04555926f254da434c517b5a14e3, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6402005623935603701}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c89b04555926f254da434c517b5a14e3, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 4755575853435724473}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c89b04555926f254da434c517b5a14e3, type: 3}
       insertIndex: -1
@@ -103,7 +100,7 @@ Animator:
   m_GameObject: {fileID: 746083531001729950}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 4046a537b3450c14dbad1065564b15dc, type: 2}
+  m_Controller: {fileID: 9100000, guid: 0e69ece578ca1c6428c5ab6406f6a7a9, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -190,7 +187,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  animator: {fileID: 2922619154082926049}
+  animator: {fileID: 0}
   isGround: 0
   deathParticle: {fileID: 1607639662943796, guid: a1a36200a3c61b34b9abfaed1373f4cc, type: 3}
 --- !u!114 &5557914518743462558
@@ -254,23 +251,6 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!114 &6402005623935603701
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 746083531001729950}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  NetworkRigidbodyBaseExpanded: 0
-  UseRigidBodyForMotion: 0
-  AutoUpdateKinematicState: 1
-  AutoSetKinematicOnDespawn: 1
 --- !u!114 &4755575853435724473
 MonoBehaviour:
   m_ObjectHideFlags: 0
