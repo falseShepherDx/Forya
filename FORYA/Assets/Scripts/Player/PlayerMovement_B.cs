@@ -27,10 +27,14 @@ public class PlayerMovement_B : NetworkBehaviour
     private bool jumpInput;
 
 
+    [SerializeField] Animator animator;
+    public bool isGround;
+
     [SerializeField] GameObject deathParticle;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();    
         inputActions = new PlayerControls();
 
        
@@ -93,6 +97,7 @@ public class PlayerMovement_B : NetworkBehaviour
         CustomGravity();
         HandleMovement();
         HandleJump();
+        AnimationHandler();
     }
 
     private void HandleMovement()
@@ -137,6 +142,7 @@ public class PlayerMovement_B : NetworkBehaviour
         
         return Physics.Raycast(transform.position + Vector3.up * 0.1f, Vector3.down, groundCheckDistance, groundLayer);
     }
+   
 
     [ServerRpc(RequireOwnership =false)]
     public void DeadServerRPC()
@@ -161,5 +167,49 @@ public class PlayerMovement_B : NetworkBehaviour
          
         }
     }
+
+    void AnimationHandler()
+    {
+        Vector3 velocity = rb.linearVelocity;
+        bool isGrounded = IsGrounded();
+
+        // Kullanıcının bastığı input'a göre hareket kontrolü
+        bool isTryingToMove = moveInput.magnitude > 0.1f;
+
+        // Koşma animasyonu
+        if (isGrounded && isTryingToMove)
+        {
+            animator.SetBool("isRunning", true);
+        }
+        // Koşmayı bırakma → RunStop
+        else if (isGrounded && !isTryingToMove && animator.GetBool("isRunning"))
+        {
+            animator.ResetTrigger("isRunStopping");
+            animator.SetTrigger("isRunStopping");
+            animator.SetBool("isRunning", false);
+        }
+
+        // Yerde ve hareket etmiyorsa zıplama/düşme iptal
+        if (isGrounded)
+        {
+            animator.SetBool("isJumping", false);
+            animator.SetBool("isFalling", false);
+        }
+
+        // Havada zıplama (yukarı çıkış)
+        if (!isGrounded && velocity.y > 0.1f)
+        {
+            animator.SetBool("isJumping", true);
+            animator.SetBool("isFalling", false);
+        }
+        // Havada düşüş (aşağı iniş)
+        else if (!isGrounded && velocity.y < -0.1f)
+        {
+            animator.SetBool("isJumping", false);
+            animator.SetBool("isFalling", true);
+        }
+    }
+
+
 
 }
