@@ -3,13 +3,15 @@ using Unity.Netcode;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
+using Quaternion = UnityEngine.Quaternion;
+using Vector3 = UnityEngine.Vector3;
 
 [RequireComponent(typeof(NetworkObject))]
 public class CannonSpawner : NetworkBehaviour
 {
     [Header("Spawn Settings")]
     [SerializeField] private Transform[] spawnPoints;
-    [SerializeField] private Transform[] centerPoints;
     [SerializeField] private GameObject cannonPrefab;
 
     [Header("Timing")]
@@ -21,13 +23,31 @@ public class CannonSpawner : NetworkBehaviour
     private float difficultyRampInterval = 30f;
     [SerializeField]
     private int maxSimultaneousSpawns = 3;
-    private bool isSpawning = true;
+    private bool isSpawning = false;
+    private Coroutine spawnRoutine;
 
     public override void OnNetworkSpawn()
     {
         if (!IsServer) return;
         
     }
+    public void StartSpawning()
+    {
+        if (!IsServer || spawnRoutine != null) return;
+        isSpawning = true;
+        spawnRoutine = StartCoroutine(SpawnRoutine());
+    }
+
+    public void StopSpawning()
+    {
+        isSpawning = false;
+        if (spawnRoutine != null)
+        {
+            StopCoroutine(spawnRoutine);
+            spawnRoutine = null;
+        }
+    }
+    
 
     private IEnumerator SpawnRoutine()
     {
@@ -52,33 +72,40 @@ public class CannonSpawner : NetworkBehaviour
             Transform spawnPoint = available[spawnIndex];
             available.RemoveAt(spawnIndex);
             
-            Transform center = centerPoints[Random.Range(0, centerPoints.Length)];
-            SpawnSingleCannon(spawnPoint, center);
+            Vector3 targetPos = GetClosestPlayerPosition(spawnPoint.position);
+            SpawnSingleCannon(spawnPoint, targetPos);
         }
     }
 
-    private void SpawnSingleCannon(Transform spawnPoint,Transform centerPoint)
+    private void SpawnSingleCannon(Transform spawnPoint, Vector3 targetPos)
     {
-        //look towards center pos
-        Vector3 dir = (centerPoint.position - spawnPoint.position).normalized;
+        Vector3 dir = (targetPos - spawnPoint.position).normalized;
         Quaternion rot = Quaternion.LookRotation(dir);
 
-        //instantiation
         var cannon = Instantiate(cannonPrefab, spawnPoint.position, rot);
         cannon.GetComponent<NetworkObject>().Spawn(true);
+        cannon.GetComponent<Cannon>().SetTarget(targetPos);
     }
-    public void StopSpawning()
+
+    private Vector3 GetClosestPlayerPosition(Vector3 fromPosition)
     {
-        isSpawning = false;
-        if (SpawnRoutine() != null)
-            StopCoroutine(SpawnRoutine());
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        GameObject closest = null;
+        float closestDistance = Mathf.Infinity;
+        foreach (GameObject player in players)
+        {
+            float distance = Vector3.Distance(player.transform.position, fromPosition);
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closest = player;
+                
+            }
+           
+        }
+        return closest !=null ? closest.transform.position : fromPosition +Vector3.forward *5f;
     }
-    public void StartSpawning()
-    {
-        if (!IsServer) return;
-        isSpawning = true;
-        var spawnRoutine=StartCoroutine(SpawnRoutine());
-    }
+    
 
    
 
