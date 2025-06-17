@@ -12,31 +12,29 @@ public class PlayerMovement_B : NetworkBehaviour
     [SerializeField] private float airControlMultiplier = 0.3f;
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private float jumpCooldown = 0.5f;
-
-   
     [Header("Physics")]
     [SerializeField] private float gravityMultiplier = 2f;
     [Header("Ground Check")]
     [SerializeField] private float groundCheckDistance = 0.3f;
     [SerializeField] private LayerMask groundLayer;
-
     private PlayerControls inputActions;
     private Rigidbody rb;
     private float lastJumpTime = Mathf.NegativeInfinity;
     private Vector2 moveInput;
     private bool jumpInput;
-
-
+    private AudioSource audioSource;
     [SerializeField] Animator animator;
     public bool isGround;
-
+    [Header("VFX and SFXs")]
     [SerializeField] GameObject deathParticle;
+    [SerializeField] private AudioClip deathSound;
+    
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();    
         inputActions = new PlayerControls();
-
+        audioSource = GetComponent<AudioSource>();
        
     }
 
@@ -158,6 +156,12 @@ public class PlayerMovement_B : NetworkBehaviour
         {
             Instantiate(deathParticle, transform, Quaternion.identity);
         }
+
+        if (deathSound != null)
+        {
+            audioSource.PlayOneShot(deathSound);
+        }
+        
     }
     private void OnTriggerEnter(Collider other)
     {

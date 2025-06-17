@@ -56,5 +56,6 @@ public class TutorialUIManager : NetworkBehaviour
     void RunAfterCanvas()
     {
         CharacterSpawner.instance.SpawnPlayers();
+        FindObjectOfType<CannonSpawner>().StartSpawning();
     }
 }

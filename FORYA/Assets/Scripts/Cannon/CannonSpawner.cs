@@ -27,14 +27,6 @@ public class CannonSpawner : NetworkBehaviour
     {
         if (!IsServer) return;
         
-        if (spawnPoints == null || spawnPoints.Length == 0)
-            Debug.LogError("CannonSpawner: No spawn points assigned!", this);
-        if (centerPoints == null  || centerPoints.Length == 0)
-            Debug.LogError("CannonSpawner: centerPoint not assigned!", this);
-        if (cannonPrefab == null)
-            Debug.LogError("CannonSpawner: cannonPrefab not assigned!", this);
-
-        StartCoroutine(SpawnRoutine());
     }
 
     private IEnumerator SpawnRoutine()
@@ -69,7 +61,7 @@ public class CannonSpawner : NetworkBehaviour
     {
         //look towards center pos
         Vector3 dir = (centerPoint.position - spawnPoint.position).normalized;
-        Quaternion rot = Quaternion.LookRotation(dir) * Quaternion.Euler(0f, -90f, 0f);
+        Quaternion rot = Quaternion.LookRotation(dir);
 
         //instantiation
         var cannon = Instantiate(cannonPrefab, spawnPoint.position, rot);
@@ -78,6 +70,16 @@ public class CannonSpawner : NetworkBehaviour
     public void StopSpawning()
     {
         isSpawning = false;
+        if (SpawnRoutine() != null)
+            StopCoroutine(SpawnRoutine());
     }
+    public void StartSpawning()
+    {
+        if (!IsServer) return;
+        isSpawning = true;
+        var spawnRoutine=StartCoroutine(SpawnRoutine());
+    }
+
+   
 
 }
