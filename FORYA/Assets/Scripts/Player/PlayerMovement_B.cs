@@ -28,7 +28,9 @@ public class PlayerMovement_B : NetworkBehaviour
     [Header("VFX and SFXs")]
     [SerializeField] GameObject deathParticle;
     [SerializeField] private AudioClip deathSound;
-    
+
+    public NetworkVariable<bool> isAlive = new NetworkVariable<bool>(true);
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -50,6 +52,7 @@ public class PlayerMovement_B : NetworkBehaviour
             rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
 
+            isAlive.Value = true;
         }
 
         // E�er bu obje yerel oyuncuya ait de�ilse, hareket ve input i�lemleri kapat�l�r
@@ -140,12 +143,16 @@ public class PlayerMovement_B : NetworkBehaviour
         
         return Physics.Raycast(transform.position + Vector3.up * 0.1f, Vector3.down, groundCheckDistance, groundLayer);
     }
-   
 
-    [ServerRpc(RequireOwnership =false)]
+
+    [ServerRpc(RequireOwnership = false)]
     public void DeadServerRPC()
     {
-        ShowDeathEffectClientRPC(transform.position);
+        isAlive.Value = false;
+
+        GameManager_B.instance.RemoveAlivePlayerServerRpc(OwnerClientId); // EKLENECEK
+
+        //ShowDeathEffectClientRpc(transform.position);
         GetComponent<NetworkObject>().Despawn();
     }
 

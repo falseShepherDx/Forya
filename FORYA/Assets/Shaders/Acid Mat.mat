@@ -103,44 +103,44 @@ Material:
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
-    - _CloudIntensity: 0.7
-    - _CloudScale: 10
+    - _CloudIntensity: 0.253
+    - _CloudScale: 60
     - _CloudSpeed: 0.02
     - _Cull: 2
     - _Cutoff: 0.5
-    - _Depth: 1.75
-    - _DepthToAlpha: 0.347
+    - _Depth: 1
+    - _DepthToAlpha: 1
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
-    - _DisplacementStrength: 0.35
+    - _DisplacementStrength: 0.33
     - _DstBlend: 0
     - _DstBlendAlpha: 0
-    - _EdgeMaxAlpha: 0.134
+    - _EdgeMaxAlpha: 0
     - _EnvironmentReflections: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _Metallic: 0
-    - _Normal_Strength: 12
+    - _Normal_Strength: 10.92
     - _OcclusionStrength: 1
     - _Parallax: 0.005
-    - _Power: 1.5
+    - _Power: 0
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _RippleIntensity: 0.75
+    - _RippleIntensity: 0
     - _RippleSpeed: 1
-    - _Smoothness: 0.251
+    - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
-    - _VoronoiCellDensity: 20
+    - _VoronoiCellDensity: 178.48
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0.35711268, g: 0.9528302, b: 0.14831792, a: 1}
+    - _BaseColor: {r: 0.15716614, g: 0.4056604, b: 0.07079922, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DepthColor: {r: 0.048476994, g: 0.19811317, b: 0.02149342, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

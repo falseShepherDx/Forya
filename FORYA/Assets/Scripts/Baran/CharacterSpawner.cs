@@ -1,3 +1,4 @@
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,7 +9,6 @@ public class CharacterSpawner : NetworkBehaviour
 
     [SerializeField] private GameObject[] playerPrefabs;
     int playerIndex;
-
 
     private void Awake()
     {
@@ -45,4 +45,5 @@ public class CharacterSpawner : NetworkBehaviour
             playerIndex++;
         }
     }
+
 }

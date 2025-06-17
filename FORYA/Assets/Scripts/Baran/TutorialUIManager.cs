@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using Unity.Netcode;
@@ -8,7 +9,6 @@ public class TutorialUIManager : NetworkBehaviour
 {
     [SerializeField] GameObject canvas;
     [SerializeField] TextMeshProUGUI countdown;
-    [SerializeField] Animator animator;
 
     private const int countdownSecond = 1;
 
@@ -53,6 +53,7 @@ public class TutorialUIManager : NetworkBehaviour
 
     }
 
+    [Obsolete("Obsolete")]
     void RunAfterCanvas()
     {
         CharacterSpawner.instance.SpawnPlayers();
