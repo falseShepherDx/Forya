@@ -46,7 +46,7 @@ public class NetworkUIManager : NetworkBehaviour
     {
         playerCountText.text = playerCount.Value + " Player Alive!";
 
-        if (playerCount.Value <= 1)
+        if (playerCount.Value <= 0)
         {
             var spawner = FindObjectOfType<CannonSpawner>();
             if (spawner != null)
