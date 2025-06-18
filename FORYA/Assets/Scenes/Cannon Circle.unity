@@ -6286,10 +6286,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   playerPrefabs:
-  - {fileID: 746083531001729950, guid: e464864b5e3861943b07414d9e14f1ca, type: 3}
-  - {fileID: 746083531001729950, guid: bf2395ae29c67814284cd551b99310fb, type: 3}
-  - {fileID: 746083531001729950, guid: 655dd231a0f8aa8448165366f969b03a, type: 3}
-  - {fileID: 746083531001729950, guid: 19b5ef7c247c569478a464a3c222ad40, type: 3}
+  - {fileID: 1138161653848136542, guid: a351544a0cbe21847a06886d0084fbbb, type: 3}
+  - {fileID: 7208521718832381494, guid: 2bfb98ff7e817a8448c1524b15d3cb47, type: 3}
+  - {fileID: 2589865531554706236, guid: 912160bcf5221a4439f84e5ed983acf6, type: 3}
+  - {fileID: 5543263339396307653, guid: 247dcd9e126e4d14882f3981dafcc643, type: 3}
 --- !u!4 &1665612715
 Transform:
   m_ObjectHideFlags: 0
@@ -8165,3 +8165,4 @@ SceneRoots:
   - {fileID: 7156903318988763778}
   - {fileID: 2140073686}
   - {fileID: 2033379151}
+  - {fileID: 1447589216}
