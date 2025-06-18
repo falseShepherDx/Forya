@@ -3681,6 +3681,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4356cbf49b3352c4f9778b0d5f3fbefb, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2582893597980946784}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4356cbf49b3352c4f9778b0d5f3fbefb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -3509894071132978470}
   m_SourcePrefab: {fileID: 100100000, guid: 4356cbf49b3352c4f9778b0d5f3fbefb, type: 3}
 --- !u!1 &1458202904431112562 stripped
 GameObject:
@@ -3832,6 +3835,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-3509894071132978470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1458202904431112562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  TransitionStateInfoList: []
+  m_Animator: {fileID: 5302829857066103218}
 --- !u!4 &2267355138530175944 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4356cbf49b3352c4f9778b0d5f3fbefb, type: 3}

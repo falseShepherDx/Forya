@@ -167,7 +167,7 @@ public class PlayerMovement_B : NetworkBehaviour
 
         GameManager_B.instance.RemoveAlivePlayerServerRpc(OwnerClientId); // EKLENECEK
 
-        //ShowDeathEffectClientRpc(transform.position);
+        ShowDeathEffectClientRPC(transform.position);
         GetComponent<NetworkObject>().Despawn();
     }
 
