@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/LobbyScene.unity
     guid: 3b3a19d6af52f564c9bc3aa16d81ad74
   - enabled: 1
-    path: "Assets/Scenes/K\u0131r\u0131lanKarolar.unity"
+    path: Assets/Scenes/Breaking Blocks.unity
     guid: de4aa93f55c7d13409736152a70b8d69
   - enabled: 1
     path: Assets/Scenes/Cannon Circle.unity
