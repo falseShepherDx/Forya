@@ -45,7 +45,8 @@ public class Cannon : NetworkBehaviour
     {
         if (!IsServer) return;
         GameObject ball = Instantiate(cannonBallPrefab, firePoint.position, Quaternion.identity);
-        ball.GetComponent<NetworkObject>().Spawn(true);
+        var netObj = ball.GetComponent<NetworkObject>();
+        netObj.Spawn(true);
         ball.GetComponent<Rigidbody>().AddForce(targetDirection * shootForce, ForceMode.Impulse);
 
         if (fireVFX)
@@ -59,14 +60,15 @@ public class Cannon : NetworkBehaviour
         if (!IsServer) return;
        
         if (sinkVFX)
-            Destroy(Instantiate(sinkVFX, bubbleTransform.position, Quaternion.identity), 2f);
+            Destroy(Instantiate(sinkVFX, bubbleTransform.position, Quaternion.identity), 1f);
         if(sinkSFX)
             audioSource.PlayOneShot(sinkSFX);
-       Invoke(nameof(SinkCompleted),2f);
+       Invoke(nameof(SinkCompleted),0.05f);
     }
 
     private void SinkCompleted()
     {
         GetComponent<NetworkObject>().Despawn(true);
     }
+  
 }

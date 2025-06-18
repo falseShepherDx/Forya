@@ -72,7 +72,8 @@ public class CannonSpawner : NetworkBehaviour
             Transform spawnPoint = available[spawnIndex];
             available.RemoveAt(spawnIndex);
             
-            Vector3 targetPos = GetClosestPlayerPosition(spawnPoint.position);
+            
+            Vector3 targetPos = GetRandomPlayerPosition();
             SpawnSingleCannon(spawnPoint, targetPos);
         }
     }
@@ -87,23 +88,14 @@ public class CannonSpawner : NetworkBehaviour
         cannon.GetComponent<Cannon>().SetTarget(targetPos);
     }
 
-    private Vector3 GetClosestPlayerPosition(Vector3 fromPosition)
+    private Vector3 GetRandomPlayerPosition()
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        GameObject closest = null;
-        float closestDistance = Mathf.Infinity;
-        foreach (GameObject player in players)
-        {
-            float distance = Vector3.Distance(player.transform.position, fromPosition);
-            if (distance < closestDistance)
-            {
-                closestDistance = distance;
-                closest = player;
-                
-            }
-           
-        }
-        return closest !=null ? closest.transform.position : fromPosition +Vector3.forward *5f;
+        if (players.Length == 0)
+            return Vector3.forward * 5f; // fallback
+
+        GameObject chosen = players[Random.Range(0, players.Length)];
+        return chosen.transform.position;
     }
     
 
