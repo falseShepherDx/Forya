@@ -44,7 +44,11 @@ public class VolumeSettings : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             isOpen = !isOpen;
-            escCanvas.SetActive(isOpen);
+            if (escCanvas != null)
+            {
+                escCanvas.SetActive(isOpen);
+            }
+          
         }
     }
 

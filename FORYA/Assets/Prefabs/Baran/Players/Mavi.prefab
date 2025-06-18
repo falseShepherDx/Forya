@@ -166,15 +166,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d89655180b284b442a753cb1365a3b33, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.312458
+      value: 27.337696
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d89655180b284b442a753cb1365a3b33, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.824434
+      value: 0.0000009536743
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d89655180b284b442a753cb1365a3b33, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4.7290983
+      value: -5.725
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d89655180b284b442a753cb1365a3b33, type: 3}
       propertyPath: m_LocalRotation.w
@@ -264,6 +264,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 33.65232
       objectReference: {fileID: 0}
+    - target: {fileID: -8117328299235069946, guid: d89655180b284b442a753cb1365a3b33, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 45ff02ca38d249a46995f41449f09ae9, type: 2}
     - target: {fileID: -8066117092921006752, guid: d89655180b284b442a753cb1365a3b33, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0.0000074837812
@@ -3594,7 +3598,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 3981127897
-  InScenePlacedSourceGlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 3981127897
   DeferredDespawnTick: 0
   Ownership: 1
   AlwaysReplicateAsRoot: 0
@@ -3637,8 +3641,8 @@ MonoBehaviour:
   moveSpeed: 5
   rotationSpeed: 10
   airControlMultiplier: 0.3
-  jumpForce: 5
-  jumpCooldown: 0.5
+  jumpForce: 9
+  jumpCooldown: 0.2
   gravityMultiplier: 2
   groundCheckDistance: 0.3
   groundLayer:
@@ -3647,8 +3651,8 @@ MonoBehaviour:
   animator: {fileID: 0}
   networkAnimator: {fileID: 0}
   isGround: 0
-  deathParticle: {fileID: 0}
-  deathSound: {fileID: 8300000, guid: d9837bfa91c9bb941a9a0abb1cfdd9d5, type: 3}
+  deathParticle: {fileID: 1607639662943796, guid: a1a36200a3c61b34b9abfaed1373f4cc, type: 3}
+  deathSound: {fileID: 0}
   isAlive:
     m_InternalValue: 1
 --- !u!114 &1629548269206884224
@@ -3694,9 +3698,9 @@ MonoBehaviour:
   SyncPositionX: 1
   SyncPositionY: 1
   SyncPositionZ: 1
-  SyncRotAngleX: 0
+  SyncRotAngleX: 1
   SyncRotAngleY: 1
-  SyncRotAngleZ: 0
+  SyncRotAngleZ: 1
   SyncScaleX: 1
   SyncScaleY: 1
   SyncScaleZ: 1
