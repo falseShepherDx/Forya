@@ -47,7 +47,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _Depth: 450
-    - _Displacement: 0.2
+    - _Displacement: 0.18
     - _FoamAmount: 0.3
     - _FoamCutoff: 1.1
     - _FoamSize: 50

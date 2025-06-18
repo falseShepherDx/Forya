@@ -63,7 +63,7 @@ public class Cannon : NetworkBehaviour
             Destroy(Instantiate(sinkVFX, bubbleTransform.position, Quaternion.identity), 1f);
         if(sinkSFX)
             audioSource.PlayOneShot(sinkSFX);
-       Invoke(nameof(SinkCompleted),0.05f);
+       Invoke(nameof(SinkCompleted),0.1f);
     }
 
     private void SinkCompleted()
