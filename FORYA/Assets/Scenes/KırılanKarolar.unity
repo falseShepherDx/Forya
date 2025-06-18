@@ -11663,10 +11663,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   playerPrefabs:
-  - {fileID: 5543263339396307653, guid: 294432bccc868c242b12b13d97a79a6d, type: 3}
-  - {fileID: 2589865531554706236, guid: 4088f457fbb4e8848b7d0749e9994614, type: 3}
   - {fileID: 7208521718832381494, guid: 9e7390fec36bf90418e88a6ad1c5cfac, type: 3}
   - {fileID: 1138161653848136542, guid: 44c7b474a29623746afb654e88ff7163, type: 3}
+  - {fileID: 2589865531554706236, guid: 4088f457fbb4e8848b7d0749e9994614, type: 3}
+  - {fileID: 5543263339396307653, guid: 294432bccc868c242b12b13d97a79a6d, type: 3}
 --- !u!4 &694709744
 Transform:
   m_ObjectHideFlags: 0
