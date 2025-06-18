@@ -58,9 +58,7 @@ public class PlayerMovement_B : NetworkBehaviour
         // E�er bu obje yerel oyuncuya ait de�ilse, hareket ve input i�lemleri kapat�l�r
         if (!IsOwner)
         {
-            enabled = false;
-
-
+            inputActions.Player.Disable();
             return;
         }
 
@@ -98,6 +96,7 @@ public class PlayerMovement_B : NetworkBehaviour
 
     private void FixedUpdate()
     {
+        //if (!IsServer) return;
         CustomGravity();
         HandleMovement();
         HandleJump();
@@ -107,7 +106,7 @@ public class PlayerMovement_B : NetworkBehaviour
     private void HandleMovement()
     {
         Vector3 inputDirection = new Vector3(moveInput.x, 0f, moveInput.y);
-
+        //Debug.Log($"[Move] Input: {inputDirection}, Position: {transform.position}");
         if (inputDirection.sqrMagnitude > 0.01f)
         {
             //move   
@@ -118,6 +117,8 @@ public class PlayerMovement_B : NetworkBehaviour
            //rotate
             Quaternion targetRotation = Quaternion.LookRotation(inputDirection, Vector3.up); 
             rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime));
+
+            
         }
     }
 
