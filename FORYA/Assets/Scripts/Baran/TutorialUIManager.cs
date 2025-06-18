@@ -10,7 +10,7 @@ public class TutorialUIManager : NetworkBehaviour
     [SerializeField] GameObject canvas;
     [SerializeField] TextMeshProUGUI countdown;
 
-    private const int countdownSecond = 1;
+    private const int countdownSecond = 10;
 
     public override void OnNetworkSpawn()
     {
