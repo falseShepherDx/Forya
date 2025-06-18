@@ -96,7 +96,7 @@ Animator:
   m_GameObject: {fileID: 746083531001729950}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 0e69ece578ca1c6428c5ab6406f6a7a9, type: 2}
+  m_Controller: {fileID: 9100000, guid: 43528f1c071fa814c8d72d981a8f6cb2, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -186,6 +186,9 @@ MonoBehaviour:
   animator: {fileID: 0}
   isGround: 0
   deathParticle: {fileID: 1607639662943796, guid: a1a36200a3c61b34b9abfaed1373f4cc, type: 3}
+  deathSound: {fileID: 0}
+  isAlive:
+    m_InternalValue: 1
 --- !u!114 &5557914518743462558
 MonoBehaviour:
   m_ObjectHideFlags: 0

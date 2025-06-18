@@ -58,13 +58,16 @@ public class PlayerMovement_B : NetworkBehaviour
         // E�er bu obje yerel oyuncuya ait de�ilse, hareket ve input i�lemleri kapat�l�r
         if (!IsOwner)
         {
-            rb.isKinematic = true;
             enabled = false;
-           
+
+
             return;
         }
 
-        
+        rb.isKinematic = false;
+        rb.useGravity = true;
+
+
     }
 
     private void OnEnable()
