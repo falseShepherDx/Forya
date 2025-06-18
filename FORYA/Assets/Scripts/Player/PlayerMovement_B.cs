@@ -1,6 +1,7 @@
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.InputSystem;
+using Unity.Netcode.Components;
 
 
 [RequireComponent(typeof(Rigidbody))]
@@ -24,6 +25,7 @@ public class PlayerMovement_B : NetworkBehaviour
     private bool jumpInput;
     private AudioSource audioSource;
     [SerializeField] Animator animator;
+    [SerializeField] NetworkAnimator networkAnimator;
     public bool isGround;
     [Header("VFX and SFXs")]
     [SerializeField] GameObject deathParticle;
@@ -37,7 +39,7 @@ public class PlayerMovement_B : NetworkBehaviour
         animator = GetComponent<Animator>();    
         inputActions = new PlayerControls();
         audioSource = GetComponent<AudioSource>();
-       
+        networkAnimator= GetComponent<NetworkAnimator>();
     }
 
     public override void OnNetworkSpawn()
@@ -182,49 +184,71 @@ public class PlayerMovement_B : NetworkBehaviour
          
         }
     }
-    
+
+    [ClientRpc]
+    void SetAnimBoolClientRpc(string paramName, bool value)
+    {
+        if (!IsOwner) 
+        animator.SetBool(paramName, value);
+    }
+
+    [ServerRpc]
+    void SetAnimBoolServerRpc(string paramName, bool value)
+    {
+        SetAnimBoolClientRpc(paramName, value);
+    }
 
     void AnimationHandler()
     {
+        if (!IsOwner) return;
+
         Vector3 velocity = rb.linearVelocity;
         bool isGrounded = IsGrounded();
-
-        // Kullanıcının bastığı input'a göre hareket kontrolü
         bool isTryingToMove = moveInput.magnitude > 0.1f;
 
-        // Koşma animasyonu
         if (isGrounded && isTryingToMove)
         {
-            animator.SetBool("isRunning", true);
+            if (!animator.GetBool("isRunning"))
+            {
+                animator.SetBool("isRunning", true);
+                SetAnimBoolServerRpc("isRunning", true);
+            }
         }
-        // Koşmayı bırakma → RunStop
         else if (isGrounded && !isTryingToMove && animator.GetBool("isRunning"))
         {
-            animator.ResetTrigger("isRunStopping");
-            animator.SetTrigger("isRunStopping");
             animator.SetBool("isRunning", false);
+            SetAnimBoolServerRpc("isRunning", false);
+
+            animator.SetTrigger("isRunStopping");
+
         }
 
-        // Yerde ve hareket etmiyorsa zıplama/düşme iptal
         if (isGrounded)
         {
             animator.SetBool("isJumping", false);
             animator.SetBool("isFalling", false);
+            SetAnimBoolServerRpc("isJumping", false);
+            SetAnimBoolServerRpc("isFalling", false);
         }
-
-        // Havada zıplama (yukarı çıkış)
-        if (!isGrounded && velocity.y > 0.1f)
+        else if (velocity.y > 0.1f)
         {
             animator.SetBool("isJumping", true);
             animator.SetBool("isFalling", false);
+            SetAnimBoolServerRpc("isJumping", true);
+            SetAnimBoolServerRpc("isFalling", false);
         }
-        // Havada düşüş (aşağı iniş)
-        else if (!isGrounded && velocity.y < -0.1f)
+        else if (velocity.y < -0.1f)
         {
             animator.SetBool("isJumping", false);
             animator.SetBool("isFalling", true);
+            SetAnimBoolServerRpc("isJumping", false);
+            SetAnimBoolServerRpc("isFalling", true);
         }
     }
+
+
+
+
 
 
 
