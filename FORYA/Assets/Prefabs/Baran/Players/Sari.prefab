@@ -166,15 +166,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4d7d6364bac977a46974134b39008716, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.86
+      value: 27.337696
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4d7d6364bac977a46974134b39008716, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.86
+      value: 0.0000009536743
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4d7d6364bac977a46974134b39008716, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.43
+      value: -4.411
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4d7d6364bac977a46974134b39008716, type: 3}
       propertyPath: m_LocalRotation.w
@@ -264,6 +264,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 29.798002
       objectReference: {fileID: 0}
+    - target: {fileID: -8117328299235069946, guid: 4d7d6364bac977a46974134b39008716, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 245435b110ff52f44aad9561bb3ae44e, type: 2}
     - target: {fileID: -8066117092921006752, guid: 4d7d6364bac977a46974134b39008716, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0.000007499598
@@ -3541,7 +3545,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 1733434572
-  InScenePlacedSourceGlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 1733434572
   DeferredDespawnTick: 0
   Ownership: 1
   AlwaysReplicateAsRoot: 0
@@ -3583,12 +3587,12 @@ MonoBehaviour:
   SyncPositionX: 1
   SyncPositionY: 1
   SyncPositionZ: 1
-  SyncRotAngleX: 0
+  SyncRotAngleX: 1
   SyncRotAngleY: 1
-  SyncRotAngleZ: 0
-  SyncScaleX: 0
-  SyncScaleY: 0
-  SyncScaleZ: 0
+  SyncRotAngleZ: 1
+  SyncScaleX: 1
+  SyncScaleY: 1
+  SyncScaleZ: 1
   PositionThreshold: 0.001
   RotAngleThreshold: 0.01
   ScaleThreshold: 0.01
@@ -3660,7 +3664,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.25
   m_Height: 1.8
   m_Direction: 1
   m_Center: {x: 0, y: 0.85, z: 0}
@@ -3680,8 +3684,8 @@ MonoBehaviour:
   moveSpeed: 5
   rotationSpeed: 10
   airControlMultiplier: 0.3
-  jumpForce: 5
-  jumpCooldown: 0.5
+  jumpForce: 9
+  jumpCooldown: 0.2
   gravityMultiplier: 2
   groundCheckDistance: 0.3
   groundLayer:
@@ -3690,7 +3694,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   networkAnimator: {fileID: 0}
   isGround: 0
-  deathParticle: {fileID: 0}
+  deathParticle: {fileID: 1607639662943796, guid: a1a36200a3c61b34b9abfaed1373f4cc, type: 3}
   deathSound: {fileID: 0}
   isAlive:
     m_InternalValue: 1
