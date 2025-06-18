@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.InputSystem;
+using Unity.Netcode.Components;
 
 
 [RequireComponent(typeof(Rigidbody))]
@@ -25,18 +26,21 @@ public class PlayerMovement_B : NetworkBehaviour
     private bool jumpInput;
     private AudioSource audioSource;
     [SerializeField] Animator animator;
+    [SerializeField] NetworkAnimator networkAnimator;
     public bool isGround;
     [Header("VFX and SFXs")]
     [SerializeField] GameObject deathParticle;
     [SerializeField] private AudioClip deathSound;
-    
+
+    public NetworkVariable<bool> isAlive = new NetworkVariable<bool>(true);
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();    
         inputActions = new PlayerControls();
         audioSource = GetComponent<AudioSource>();
-       
+        networkAnimator= GetComponent<NetworkAnimator>();
     }
 
     private void Update()
@@ -59,18 +63,20 @@ public class PlayerMovement_B : NetworkBehaviour
             rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
 
+            isAlive.Value = true;
         }
 
         // E�er bu obje yerel oyuncuya ait de�ilse, hareket ve input i�lemleri kapat�l�r
         if (!IsOwner)
         {
-            rb.isKinematic = true;
-            enabled = false;
-           
+            inputActions.Player.Disable();
             return;
         }
 
-        
+        rb.isKinematic = false;
+        rb.useGravity = true;
+
+
     }
 
     private void OnEnable()
@@ -101,6 +107,7 @@ public class PlayerMovement_B : NetworkBehaviour
 
     private void FixedUpdate()
     {
+        //if (!IsServer) return;
         CustomGravity();
         HandleMovement();
         HandleJump();
@@ -110,7 +117,7 @@ public class PlayerMovement_B : NetworkBehaviour
     private void HandleMovement()
     {
         Vector3 inputDirection = new Vector3(moveInput.x, 0f, moveInput.y);
-
+        //Debug.Log($"[Move] Input: {inputDirection}, Position: {transform.position}");
         if (inputDirection.sqrMagnitude > 0.01f)
         {
             //move   
@@ -121,6 +128,8 @@ public class PlayerMovement_B : NetworkBehaviour
            //rotate
             Quaternion targetRotation = Quaternion.LookRotation(inputDirection, Vector3.up); 
             rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime));
+
+            
         }
     }
 
@@ -149,12 +158,16 @@ public class PlayerMovement_B : NetworkBehaviour
         
         return Physics.Raycast(transform.position + Vector3.up * 0.1f, Vector3.down, groundCheckDistance, groundLayer);
     }
-   
 
-    [ServerRpc(RequireOwnership =false)]
+
+    [ServerRpc(RequireOwnership = false)]
     public void DeadServerRPC()
     {
-        ShowDeathEffectClientRPC(transform.position);
+        isAlive.Value = false;
+
+        GameManager_B.instance.RemoveAlivePlayerServerRpc(OwnerClientId); // EKLENECEK
+
+        //ShowDeathEffectClientRpc(transform.position);
         GetComponent<NetworkObject>().Despawn();
     }
 
@@ -180,49 +193,71 @@ public class PlayerMovement_B : NetworkBehaviour
          
         }
     }
-    
+
+    [ClientRpc]
+    void SetAnimBoolClientRpc(string paramName, bool value)
+    {
+        if (!IsOwner) 
+        animator.SetBool(paramName, value);
+    }
+
+    [ServerRpc]
+    void SetAnimBoolServerRpc(string paramName, bool value)
+    {
+        SetAnimBoolClientRpc(paramName, value);
+    }
 
     void AnimationHandler()
     {
+        if (!IsOwner) return;
+
         Vector3 velocity = rb.linearVelocity;
         bool isGrounded = IsGrounded();
-
-        // Kullanıcının bastığı input'a göre hareket kontrolü
         bool isTryingToMove = moveInput.magnitude > 0.1f;
 
-        // Koşma animasyonu
         if (isGrounded && isTryingToMove)
         {
-            animator.SetBool("isRunning", true);
+            if (!animator.GetBool("isRunning"))
+            {
+                animator.SetBool("isRunning", true);
+                SetAnimBoolServerRpc("isRunning", true);
+            }
         }
-        // Koşmayı bırakma → RunStop
         else if (isGrounded && !isTryingToMove && animator.GetBool("isRunning"))
         {
-            animator.ResetTrigger("isRunStopping");
-            animator.SetTrigger("isRunStopping");
             animator.SetBool("isRunning", false);
+            SetAnimBoolServerRpc("isRunning", false);
+
+            animator.SetTrigger("isRunStopping");
+
         }
 
-        // Yerde ve hareket etmiyorsa zıplama/düşme iptal
         if (isGrounded)
         {
             animator.SetBool("isJumping", false);
             animator.SetBool("isFalling", false);
+            SetAnimBoolServerRpc("isJumping", false);
+            SetAnimBoolServerRpc("isFalling", false);
         }
-
-        // Havada zıplama (yukarı çıkış)
-        if (!isGrounded && velocity.y > 0.1f)
+        else if (velocity.y > 0.1f)
         {
             animator.SetBool("isJumping", true);
             animator.SetBool("isFalling", false);
+            SetAnimBoolServerRpc("isJumping", true);
+            SetAnimBoolServerRpc("isFalling", false);
         }
-        // Havada düşüş (aşağı iniş)
-        else if (!isGrounded && velocity.y < -0.1f)
+        else if (velocity.y < -0.1f)
         {
             animator.SetBool("isJumping", false);
             animator.SetBool("isFalling", true);
+            SetAnimBoolServerRpc("isJumping", false);
+            SetAnimBoolServerRpc("isFalling", true);
         }
     }
+
+
+
+
 
 
 

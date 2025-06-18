@@ -143,6 +143,15 @@ public class LobbyManager : NetworkBehaviour
         }
     }
 
+    public string GetNameByClientId(ulong clientId)
+    {
+        if (clientToIndex.TryGetValue(clientId, out int index))
+        {
+            if (index < syncedPlayerNames.Count)
+                return syncedPlayerNames[index].ToString();
+        }
+        return "Unknown";
+    }
     public bool AreAllPlayersReady()
     {
         if (playerReadyStates.Count == 0) return false;
