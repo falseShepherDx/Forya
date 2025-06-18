@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager_B : NetworkBehaviour
 {
@@ -12,11 +13,12 @@ public class GameManager_B : NetworkBehaviour
     {
         if (instance == null) instance = this;
         else Destroy(gameObject);
+      
     }
 
     public override void OnNetworkSpawn()
     {
-        if (IsServer)
+        if (IsServer && SceneManager.GetActiveScene().name !="LobbyScene")
         {
             alivePlayers.Clear();
             foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
@@ -41,5 +43,47 @@ public class GameManager_B : NetworkBehaviour
             string winnerName = LobbyManager.instance.GetNameByClientId(winnerId);
             WinScreen.instance.ShowWinScreenClientRpc(winnerName);
         }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ReturnSingleClientToMainMenuServerRpc(ulong clientId)
+    {
+        ClientRpcParams targetClient = new ClientRpcParams
+        {
+            Send = new ClientRpcSendParams
+            {
+                TargetClientIds = new[] { clientId }
+            }
+        };
+
+        ReturnToMainMenuClientRpc(targetClient);
+
+        NetworkManager.DisconnectClient(clientId);
+    }
+
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ReturnEveryoneToMainMenuServerRpc()
+    {
+        if (!IsServer) return;
+
+        LobbyManager.instance.ClearAllPlayers();
+
+        if (NetworkManager.Singleton.SceneManager != null)
+        {
+            NetworkManager.SceneManager.LoadScene("LobbyScene", LoadSceneMode.Single);
+            Debug.Log("Host + tüm oyuncular LobbyScene’e gönderildi.");
+        }
+        else
+        {
+            Debug.LogWarning("SceneManager null!");
+        }
+    }
+
+
+    [ClientRpc]
+    void ReturnToMainMenuClientRpc(ClientRpcParams clientRpcParams)
+    {
+        SceneManager.LoadScene("LobbyScene");
     }
 }

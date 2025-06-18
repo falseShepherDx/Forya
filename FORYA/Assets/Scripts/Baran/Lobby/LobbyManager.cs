@@ -113,8 +113,14 @@ public class LobbyManager : NetworkBehaviour
         }
     }
 
-  
 
+    public void ClearAllPlayers()
+    {
+        syncedPlayerNames.Clear();
+        playerReadyStates.Clear();
+        clientToIndex.Clear();
+        Debug.Log("Lobby temizlendi.");
+    }
     private void UpdateUI()
     {
         for (int i = 0; i < panels.Count; i++)
