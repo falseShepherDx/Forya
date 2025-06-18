@@ -1780,7 +1780,7 @@
     "m_Title": "Displacement",
     "m_Position": {
         "x": 1242.0,
-        "y": -1256.9998779296875
+        "y": -1257.0
     }
 }
 
@@ -2726,7 +2726,7 @@
     "m_ObjectId": "3f8c760880f548a28c0af5eedd4ee4cc",
     "m_Title": "DEPTH CALCULATION",
     "m_Position": {
-        "x": -1934.0001220703125,
+        "x": -1934.0,
         "y": 18.0
     }
 }
@@ -3375,8 +3375,8 @@
     "m_ObjectId": "57a9662098024425a3dde3abcec3117e",
     "m_Title": "EDGE TRANSPERANCY",
     "m_Position": {
-        "x": 15.999998092651368,
-        "y": 518.0000610351563
+        "x": 16.0,
+        "y": 518.0
     }
 }
 
@@ -4702,8 +4702,8 @@
     "m_ObjectId": "943d73048a5b4525a8973a573a97de23",
     "m_Title": "Surface color",
     "m_Position": {
-        "x": -2063.000244140625,
-        "y": -2006.0001220703125
+        "x": -2063.0,
+        "y": -2006.0
     }
 }
 
