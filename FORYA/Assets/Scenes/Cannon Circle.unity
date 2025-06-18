@@ -5228,11 +5228,11 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1400093824}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: a8598d2708e00c84688404d410651d8d, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 92dd750d91c7d354a9ae48cd88d65ba6, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
-  m_TargetTexture: {fileID: 8400000, guid: 45858d74e539984428a1dac944ec3095, type: 2}
+  m_TargetTexture: {fileID: 8400000, guid: ac392013d3a70dc4989ea8f9b139ea6e, type: 2}
   m_TimeReference: 0
   m_TargetMaterialRenderer: {fileID: 0}
   m_TargetMaterialProperty: <noninit>
@@ -5242,14 +5242,12 @@ VideoPlayer:
   m_TimeUpdateMode: 2
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 0
-  m_TargetAudioSources:
-  - {fileID: 0}
-  m_DirectAudioVolumes:
-  - 0
+  m_TargetAudioSources: []
+  m_DirectAudioVolumes: []
   m_Url: 
-  m_EnabledAudioTracks: 01
-  m_DirectAudioMutes: 01
-  m_ControlledAudioTrackCount: 1
+  m_EnabledAudioTracks: 
+  m_DirectAudioMutes: 
+  m_ControlledAudioTrackCount: 0
   m_PlayOnAwake: 1
   m_SkipOnDrop: 1
   m_Looping: 1
@@ -7061,7 +7059,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 8400000, guid: 45858d74e539984428a1dac944ec3095, type: 2}
+  m_Texture: {fileID: 8400000, guid: ac392013d3a70dc4989ea8f9b139ea6e, type: 2}
   m_UVRect:
     serializedVersion: 2
     x: 0
