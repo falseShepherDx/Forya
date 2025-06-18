@@ -56,7 +56,7 @@ public class Cannon : NetworkBehaviour
     }
     public void OnSinkComplete()
     {
-        Debug.Log("ON SINK ON SINK ON SINK !!!");
+        
         if (!IsServer) return;
        
         if (sinkVFX)
