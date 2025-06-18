@@ -9,6 +9,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: c89b04555926f254da434c517b5a14e3, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c89b04555926f254da434c517b5a14e3, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c89b04555926f254da434c517b5a14e3, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c89b04555926f254da434c517b5a14e3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.4709201
       objectReference: {fileID: 0}
@@ -54,7 +66,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 55432c754b0bada41a0638858252cc41, type: 2}
     - target: {fileID: 919132149155446097, guid: c89b04555926f254da434c517b5a14e3, type: 3}
       propertyPath: m_Name
-      value: BlueMamy 1
+      value: RedMamy
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c89b04555926f254da434c517b5a14e3, type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -186,13 +202,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  moveSpeed: 5
+  moveSpeed: 8
   rotationSpeed: 10
   airControlMultiplier: 0.3
-  jumpForce: 5
+  jumpForce: 8
   jumpCooldown: 0.5
   gravityMultiplier: 2
-  groundCheckDistance: 0.3
+  groundCheckDistance: 0.4
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -334,10 +350,10 @@ AudioSource:
   m_GameObject: {fileID: 746083531001729950}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1155164419470729827, guid: e980964a8e8e7ad41b29693949b6a206, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

@@ -18,38 +18,36 @@ public class Cannon : NetworkBehaviour
     [SerializeField] private AudioClip fireSfx;
     [SerializeField] private AudioClip sinkSFX;
     [SerializeField] private Transform bubbleTransform;
-    
-    
-    
+    private Vector3 targetDirection;
     private AudioSource audioSource;
 
-
+    public void SetTarget(Vector3 targetPos)
+    {
+        targetDirection = (targetPos - firePoint.position).normalized;
+    }
     public override void OnNetworkSpawn()
     {
         if (!IsServer) return;
         if (!animator) animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>() ?? gameObject.AddComponent<AudioSource>();
-
         StartCoroutine(CannonRoutine());
     }
     IEnumerator CannonRoutine()
     {
-        while (true)
-        {
             animator.Play("Rise");
             yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
             yield return new WaitForSeconds(fireDelay);
             animator.Play("FireAndSink");
             yield return new WaitForSeconds(1.1f); 
             //OnSinkComplete();
-        }
     }
     public void OnCannonFire()
     {
         if (!IsServer) return;
         GameObject ball = Instantiate(cannonBallPrefab, firePoint.position, Quaternion.identity);
-        ball.GetComponent<NetworkObject>().Spawn(true);
-        ball.GetComponent<Rigidbody>().AddForce(firePoint.forward * shootForce, ForceMode.Impulse);
+        var netObj = ball.GetComponent<NetworkObject>();
+        netObj.Spawn(true);
+        ball.GetComponent<Rigidbody>().AddForce(targetDirection * shootForce, ForceMode.Impulse);
 
         if (fireVFX)
             Destroy(Instantiate(fireVFX, firePoint.position, Quaternion.identity), 2f);
@@ -62,14 +60,15 @@ public class Cannon : NetworkBehaviour
         if (!IsServer) return;
        
         if (sinkVFX)
-            Destroy(Instantiate(sinkVFX, bubbleTransform.position, Quaternion.identity), 2f);
+            Destroy(Instantiate(sinkVFX, bubbleTransform.position, Quaternion.identity), 1f);
         if(sinkSFX)
             audioSource.PlayOneShot(sinkSFX);
-       Invoke(nameof(SinkCompleted),2f);
+       Invoke(nameof(SinkCompleted),0.1f);
     }
 
     private void SinkCompleted()
     {
         GetComponent<NetworkObject>().Despawn(true);
     }
+  
 }

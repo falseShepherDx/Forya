@@ -489,7 +489,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8362081407942823256}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 134120120a2e6f047972bcc3ff83941a, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -541,6 +541,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  movementScript: {fileID: 0}
 --- !u!114 &293257038522269042
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.InputSystem;
@@ -40,6 +41,14 @@ public class PlayerMovement_B : NetworkBehaviour
         inputActions = new PlayerControls();
         audioSource = GetComponent<AudioSource>();
         networkAnimator= GetComponent<NetworkAnimator>();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            ScreenCapture.CaptureScreenshot("screenshot_" + Time.time + ".png");
+        }
     }
 
     public override void OnNetworkSpawn()

@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using Unity.Netcode;
+using System.Collections;
 
 public class CannonBall : NetworkBehaviour
 {
@@ -10,9 +11,20 @@ public class CannonBall : NetworkBehaviour
     {
         int ballLayer = LayerMask.NameToLayer("CannonBall");
         gameObject.layer = ballLayer;
-        
         Physics.IgnoreLayerCollision(ballLayer, ballLayer, true);
     }
+    public override void OnNetworkSpawn()
+    {
+        if (IsServer)
+            StartCoroutine(DespawnAfterTime(4f));
+    }
+    private IEnumerator DespawnAfterTime(float time)
+    {
+        yield return new WaitForSeconds(time);
+        if (IsSpawned)
+            GetComponent<NetworkObject>().Despawn(true);
+    }
+    
 
     void OnCollisionEnter(Collision collision)
     {
@@ -22,9 +34,7 @@ public class CannonBall : NetworkBehaviour
             var hitPoint = collision.GetContact(0).point;
             collision.gameObject.GetComponent<PlayerMovement_B>().DeadServerRPC();
             playerHealth.KillServerRpc();
-            
         }
-        
     }
 
     
