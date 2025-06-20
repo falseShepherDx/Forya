@@ -3507,6 +3507,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d89655180b284b442a753cb1365a3b33, type: 3}
       insertIndex: -1
       addedObject: {fileID: -354928413682450587}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d89655180b284b442a753cb1365a3b33, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -6933325333540056249}
   m_SourcePrefab: {fileID: 100100000, guid: d89655180b284b442a753cb1365a3b33, type: 3}
 --- !u!1 &7208521718832381494 stripped
 GameObject:
@@ -3561,7 +3564,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
 --- !u!136 &7159661944997200631
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3811,3 +3814,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-6933325333540056249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7208521718832381494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkRigidbodyBaseExpanded: 0
+  UseRigidBodyForMotion: 0
+  AutoUpdateKinematicState: 1
+  AutoSetKinematicOnDespawn: 1
