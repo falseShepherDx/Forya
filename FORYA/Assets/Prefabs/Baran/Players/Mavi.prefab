@@ -3644,15 +3644,14 @@ MonoBehaviour:
   jumpForce: 9
   jumpCooldown: 0.2
   gravityMultiplier: 2
-  groundCheckDistance: 0.3
+  groundCheckDistance: 0.5
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  animator: {fileID: 0}
-  networkAnimator: {fileID: 0}
-  isGround: 0
   deathParticle: {fileID: 1607639662943796, guid: a1a36200a3c61b34b9abfaed1373f4cc, type: 3}
   deathSound: {fileID: 0}
+  animator: {fileID: 0}
+  audioSource: {fileID: 0}
   isAlive:
     m_InternalValue: 1
 --- !u!114 &1629548269206884224

@@ -21,11 +21,11 @@ public class PlayerMovement_B : NetworkBehaviour
     [SerializeField] private LayerMask groundLayer;
 
     [Header("VFX and SFXs")]
-    [SerializeField] GameObject deathParticle;
+    [SerializeField] private GameObject deathParticle;
     [SerializeField] private AudioClip deathSound;
 
-    [SerializeField] Animator animator;
-    [SerializeField] AudioSource audioSource;
+    [SerializeField] private Animator animator;
+    [SerializeField] private AudioSource audioSource;
 
     private Rigidbody rb;
     private PlayerControls inputActions;
@@ -50,18 +50,29 @@ public class PlayerMovement_B : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        if (!IsOwner)
+        // Bu obje Server'da mı?
+        if (IsServer)
+        {
+            rb.isKinematic = false;
+            rb.useGravity = true;
+            isAlive.Value = true;
+        }
+        else
         {
             rb.isKinematic = true;
-            rb.detectCollisions = false;
-            enabled = false;
+            rb.useGravity = false;
+        }
+
+        // Sadece Owner input alabilir
+        if (!IsOwner)
+        {
+            inputActions.Disable();
             return;
         }
 
-        rb.linearVelocity = Vector3.zero;
-        rb.angularVelocity = Vector3.zero;
-        isAlive.Value = true;
+        inputActions.Enable();
     }
+
 
     private void OnEnable()
     {
@@ -92,41 +103,32 @@ public class PlayerMovement_B : NetworkBehaviour
         Vector2 rawMove = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         bool jump = Input.GetKeyDown(KeyCode.Space);
 
-        //Debug.Log($"[RAW INPUT] Move: {rawMove}, Jump: {jump}");
-
         SendInputServerRpc(rawMove, jump);
     }
-
-
-
 
     [ServerRpc(RequireOwnership = false)]
     private void SendInputServerRpc(Vector2 move, bool jump, ServerRpcParams rpcParams = default)
     {
-        Debug.Log($"[INPUT RPC] Received from client: {rpcParams.Receive.SenderClientId} -> Move: {move}, Jump: {jump}");
-
         receivedMove = move;
         receivedJump = jump;
     }
-
-
     private void FixedUpdate()
     {
         if (!IsServer) return;
 
-        //Debug.Log($"[SERVER MOVE] client {OwnerClientId} is being updated");
+        Debug.Log($"[{OwnerClientId}] IsServer: {IsServer}, IsKinematic: {rb.isKinematic}, UseGravity: {rb.useGravity}");
+
 
         ApplyMovement(receivedMove);
         ApplyJump(receivedJump);
         ApplyGravity();
-
+        AnimationHandler();
         receivedJump = false;
     }
 
     private void ApplyMovement(Vector2 moveInput)
     {
         Vector3 inputDir = new Vector3(moveInput.x, 0f, moveInput.y);
-        //Debug.Log($"movedir -> {inputDir} ");
 
         if (inputDir.sqrMagnitude < 0.01f) return;
 
@@ -195,4 +197,67 @@ public class PlayerMovement_B : NetworkBehaviour
         if (deathParticle) Instantiate(deathParticle, pos, Quaternion.identity);
         if (deathSound) audioSource.PlayOneShot(deathSound);
     }
+
+    [ServerRpc(RequireOwnership = false)]
+    void SetAnimBoolServerRpc(string param, bool value)
+    {
+        SetAnimBoolClientRpc(param, value);
+    }
+
+    [ClientRpc]
+    void SetAnimBoolClientRpc(string param, bool value)
+    {
+        //Debug.Log($"[ClientRpc] SetBool {param} = {value} on {OwnerClientId}");
+
+        if (animator == null)
+        {
+            Debug.LogError($"Animator is NULL on client {OwnerClientId}!");
+            return;
+        }
+
+        animator.SetBool(param, value);
+    }
+
+
+    void AnimationHandler()
+    {
+        Vector3 velocity = rb.linearVelocity;
+        bool isGrounded = IsGrounded();
+        bool isTryingToMove = receivedMove.magnitude > 0.1f;
+
+        if (isGrounded && isTryingToMove)
+        {
+            animator.SetBool("isRunning", true);
+            SetAnimBoolServerRpc("isRunning", true);
+        }
+        else if (isGrounded && !isTryingToMove && animator.GetBool("isRunning"))
+        {
+            animator.SetBool("isRunning", false);
+            SetAnimBoolServerRpc("isRunning", false);
+        }
+
+        if (isGrounded)
+        {
+            animator.SetBool("isJumping", false);
+            animator.SetBool("isFalling", false);
+            SetAnimBoolServerRpc("isJumping", false);
+            SetAnimBoolServerRpc("isFalling", false);
+        }
+        else if (velocity.y > 0.1f)
+        {
+            animator.SetBool("isJumping", true);
+            SetAnimBoolServerRpc("isJumping", true);
+            animator.SetBool("isFalling", false);
+            SetAnimBoolServerRpc("isFalling", false);
+        }
+        else if (velocity.y < -0.1f)
+        {
+            animator.SetBool("isJumping", false);
+            animator.SetBool("isFalling", true);
+            SetAnimBoolServerRpc("isJumping", false);
+            SetAnimBoolServerRpc("isFalling", true);
+        }
+    }
+
+
 }
