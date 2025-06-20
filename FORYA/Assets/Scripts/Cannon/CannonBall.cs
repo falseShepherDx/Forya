@@ -32,7 +32,7 @@ public class CannonBall : NetworkBehaviour
         if (collision.gameObject.TryGetComponent<PlayerHealth>(out var playerHealth))
         {
             var hitPoint = collision.GetContact(0).point;
-            collision.gameObject.GetComponent<PlayerMovement_B>().DeadServerRPC();
+            collision.gameObject.GetComponent<PlayerMovement_B>().DeadServerRpc();
             playerHealth.KillServerRpc();
         }
     }

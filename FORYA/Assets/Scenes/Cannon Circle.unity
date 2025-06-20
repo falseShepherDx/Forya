@@ -604,7 +604,7 @@ Transform:
   m_GameObject: {fileID: 60761238}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.7, y: -10.29, z: 4.03}
+  m_LocalPosition: {x: 2.66, y: 0, z: 0.86}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2761,7 +2761,7 @@ Transform:
   m_GameObject: {fileID: 497099709}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -10.937442, y: -10.29, z: -7.88}
+  m_LocalPosition: {x: -8.93, y: 0, z: -7.64}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3621,7 +3621,7 @@ Transform:
   m_GameObject: {fileID: 874561486}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9.387442, y: -10.29, z: 6.1736813}
+  m_LocalPosition: {x: -6.54, y: 0, z: 1.52}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3652,7 +3652,7 @@ Transform:
   m_GameObject: {fileID: 877022746}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.49526334, z: -0, w: 0.86874294}
-  m_LocalPosition: {x: -4.2252855, y: 6.86, z: -13.926463}
+  m_LocalPosition: {x: -2.8, y: -1.8, z: -11.52}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4946,7 +4946,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1297379896
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5518,7 +5518,7 @@ Transform:
   m_GameObject: {fileID: 1454834132}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.35, y: -10.29, z: -7.88}
+  m_LocalPosition: {x: 0.35, y: 0, z: -7.88}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5693,7 +5693,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1490208857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6456,8 +6456,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   playerPrefabs:
-  - {fileID: 7208521718832381494, guid: 2bfb98ff7e817a8448c1524b15d3cb47, type: 3}
   - {fileID: 1138161653848136542, guid: a351544a0cbe21847a06886d0084fbbb, type: 3}
+  - {fileID: 7208521718832381494, guid: 2bfb98ff7e817a8448c1524b15d3cb47, type: 3}
   - {fileID: 2589865531554706236, guid: 912160bcf5221a4439f84e5ed983acf6, type: 3}
   - {fileID: 5543263339396307653, guid: 247dcd9e126e4d14882f3981dafcc643, type: 3}
 --- !u!4 &1665612715
