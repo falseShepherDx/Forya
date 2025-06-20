@@ -33,10 +33,15 @@ public class PlayerMovement_B : NetworkBehaviour
     private Vector2 moveInput;
     private bool jumpPressed;
 
+    public bool isGround;
+
     private Vector2 receivedMove;
     private bool receivedJump;
 
     private float lastJumpTime = Mathf.NegativeInfinity;
+
+    private float jumpBufferTimer = 0f;
+    private const float jumpBufferTime = 0.1f;
 
     public NetworkVariable<bool> isAlive = new NetworkVariable<bool>(true);
 
@@ -103,28 +108,54 @@ public class PlayerMovement_B : NetworkBehaviour
         Vector2 rawMove = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         bool jump = Input.GetKeyDown(KeyCode.Space);
 
+        // Görsel client-side hareket (prediction hissi)
+        if (!IsServer)
+        {
+            Vector3 moveDir = new Vector3(rawMove.x, 0, rawMove.y);
+            float multiplier = isGround ? 1f : 1f - airControlMultiplier;
+            transform.Translate(moveDir.normalized * moveSpeed * multiplier * Time.deltaTime, Space.World);
+
+            if (moveDir.sqrMagnitude > 0.01f)
+            {
+                Quaternion targetRot = Quaternion.LookRotation(moveDir, Vector3.up);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, rotationSpeed * Time.deltaTime);
+            }
+        }
+
         SendInputServerRpc(rawMove, jump);
+
+        isGround = IsGrounded();
+        receivedJump = false;
     }
+
 
     [ServerRpc(RequireOwnership = false)]
     private void SendInputServerRpc(Vector2 move, bool jump, ServerRpcParams rpcParams = default)
     {
         receivedMove = move;
-        receivedJump = jump;
+
+        if (jump)
+            jumpBufferTimer = jumpBufferTime;
     }
     private void FixedUpdate()
     {
         if (!IsServer) return;
 
-        Debug.Log($"[{OwnerClientId}] IsServer: {IsServer}, IsKinematic: {rb.isKinematic}, UseGravity: {rb.useGravity}");
-
+        if (jumpBufferTimer > 0f)
+        {
+            ApplyJump(true);
+            jumpBufferTimer -= Time.fixedDeltaTime;
+        }
+        else
+        {
+            ApplyJump(false);
+        }
 
         ApplyMovement(receivedMove);
-        ApplyJump(receivedJump);
         ApplyGravity();
         AnimationHandler();
-        receivedJump = false;
     }
+
 
     private void ApplyMovement(Vector2 moveInput)
     {

@@ -3567,7 +3567,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!136 &8117308300271796254
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3700,11 +3700,10 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  animator: {fileID: 0}
-  networkAnimator: {fileID: 0}
-  isGround: 0
   deathParticle: {fileID: 1607639662943796, guid: a1a36200a3c61b34b9abfaed1373f4cc, type: 3}
   deathSound: {fileID: 8300000, guid: 203c9af3ac4e99443a49d71320d25ace, type: 3}
+  animator: {fileID: 0}
+  audioSource: {fileID: 0}
   isAlive:
     m_InternalValue: 1
 --- !u!114 &5172775377709010239
