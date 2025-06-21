@@ -40,8 +40,13 @@ public class CharacterSpawner : NetworkBehaviour
             }
 
             Vector3 spawnPos = SpawnManager.instance.GetSpawnPointForClient(clientId);
+            Debug.Log($"[SPAWN] Client {clientId} -> {spawnPos}");
             GameObject player = Instantiate(playerPrefabs[playerIndex], spawnPos, Quaternion.identity);
             player.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId);
+            Rigidbody rb = player.GetComponent<Rigidbody>();
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+
             playerIndex++;
         }
     }

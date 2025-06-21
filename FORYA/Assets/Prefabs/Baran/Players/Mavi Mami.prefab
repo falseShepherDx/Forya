@@ -3513,6 +3513,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d89655180b284b442a753cb1365a3b33, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6296703897870535516}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d89655180b284b442a753cb1365a3b33, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -6801746718219322460}
   m_SourcePrefab: {fileID: 100100000, guid: d89655180b284b442a753cb1365a3b33, type: 3}
 --- !u!1 &7208521718832381494 stripped
 GameObject:
@@ -3565,9 +3568,9 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 1
+  m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
 --- !u!136 &7159661944997200631
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3654,11 +3657,11 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  animator: {fileID: 0}
-  networkAnimator: {fileID: 0}
-  isGround: 0
   deathParticle: {fileID: 1607639662943796, guid: a1a36200a3c61b34b9abfaed1373f4cc, type: 3}
   deathSound: {fileID: 8300000, guid: 203c9af3ac4e99443a49d71320d25ace, type: 3}
+  animator: {fileID: 0}
+  audioSource: {fileID: 0}
+  isGround: 0
   isAlive:
     m_InternalValue: 1
 --- !u!114 &1629548269206884224
@@ -3698,7 +3701,7 @@ MonoBehaviour:
   RotationMaxInterpolationTime: 0.1
   ScaleLerpSmoothing: 1
   ScaleMaxInterpolationTime: 0.1
-  AuthorityMode: 1
+  AuthorityMode: 0
   TickSyncChildren: 0
   UseUnreliableDeltas: 0
   SyncPositionX: 1
@@ -3845,3 +3848,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-6801746718219322460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7208521718832381494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkRigidbodyBaseExpanded: 0
+  UseRigidBodyForMotion: 0
+  AutoUpdateKinematicState: 1
+  AutoSetKinematicOnDespawn: 1

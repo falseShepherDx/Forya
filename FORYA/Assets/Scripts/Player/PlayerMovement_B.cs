@@ -1,9 +1,7 @@
-using System;
+﻿using System;
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.InputSystem;
-using Unity.Netcode.Components;
-
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerMovement_B : NetworkBehaviour
@@ -14,85 +12,187 @@ public class PlayerMovement_B : NetworkBehaviour
     [SerializeField] private float airControlMultiplier = 0.3f;
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private float jumpCooldown = 0.5f;
+
     [Header("Physics")]
     [SerializeField] private float gravityMultiplier = 2f;
+
     [Header("Ground Check")]
     [SerializeField] private float groundCheckDistance = 0.3f;
     [SerializeField] private LayerMask groundLayer;
-    private PlayerControls inputActions;
-    private Rigidbody rb;
-    private float lastJumpTime = Mathf.NegativeInfinity;
-    private Vector2 moveInput;
-    private bool jumpInput;
-    private AudioSource audioSource;
-    [SerializeField] Animator animator;
-    [SerializeField] NetworkAnimator networkAnimator;
-    public bool isGround;
+
     [Header("VFX and SFXs")]
-    [SerializeField] GameObject deathParticle;
+    [SerializeField] private GameObject deathParticle;
     [SerializeField] private AudioClip deathSound;
+
+    [SerializeField] private Animator animator;
+    [SerializeField] private AudioSource audioSource;
+
+    private Rigidbody rb;
+    private PlayerControls inputActions;
+
+    private Vector2 moveInput;
+    private bool jumpPressed;
+
+    public bool isGround;
+
+    private Vector2 receivedMove;
+    private bool receivedJump;
+
+    private float lastJumpTime = Mathf.NegativeInfinity;
+
+    private float jumpBufferTimer = 0f;
+    private const float jumpBufferTime = 0.1f;
 
     public NetworkVariable<bool> isAlive = new NetworkVariable<bool>(true);
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        animator = GetComponent<Animator>();    
         inputActions = new PlayerControls();
+        animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
-        networkAnimator= GetComponent<NetworkAnimator>();
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            ScreenCapture.CaptureScreenshot("screenshot_" + Time.time + ".png");
-        }
     }
 
     public override void OnNetworkSpawn()
     {
-        // Sadece server pozisyonu ayarlamal� (host da dahil)
+        // Bu obje Server'da mı?
         if (IsServer)
         {
-            Vector3 spawnPos = SpawnManager.instance.GetSpawnPointForClient(OwnerClientId);
-            transform.position = spawnPos;
-
-            // Fizik sapmas�n� engelle
-            rb.linearVelocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-
+            rb.isKinematic = false;
+            rb.useGravity = true;
             isAlive.Value = true;
         }
+        else
+        {
+            rb.isKinematic = true;
+            rb.useGravity = false;
+        }
 
-        // E�er bu obje yerel oyuncuya ait de�ilse, hareket ve input i�lemleri kapat�l�r
+        // Sadece Owner input alabilir
         if (!IsOwner)
         {
-            inputActions.Player.Disable();
+            inputActions.Disable();
             return;
         }
 
-        rb.isKinematic = false;
-        rb.useGravity = true;
-
-
+        inputActions.Enable();
     }
+
 
     private void OnEnable()
     {
-        inputActions.Player.Enable();
-        inputActions.Player.Movement.performed += OnMove;
-        inputActions.Player.Movement.canceled += OnMove;
-        inputActions.Player.Jump.performed += OnJump;
+        if (IsOwner)
+        {
+            inputActions.Enable();
+            inputActions.Player.Movement.performed += OnMove;
+            inputActions.Player.Movement.canceled += OnMove;
+            inputActions.Player.Jump.performed += OnJump;
+        }
     }
 
     private void OnDisable()
     {
-        inputActions.Player.Disable();
-        inputActions.Player.Movement.performed -= OnMove;
-        inputActions.Player.Movement.canceled -= OnMove;
-        inputActions.Player.Jump.performed -= OnJump;
+        if (IsOwner)
+        {
+            inputActions.Disable();
+            inputActions.Player.Movement.performed -= OnMove;
+            inputActions.Player.Movement.canceled -= OnMove;
+            inputActions.Player.Jump.performed -= OnJump;
+        }
+    }
+
+    private void Update()
+    {
+        if (!IsOwner) return;
+
+        Vector2 rawMove = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        bool jump = Input.GetKeyDown(KeyCode.Space);
+
+        // Görsel client-side hareket (prediction hissi)
+        if (!IsServer)
+        {
+            Vector3 moveDir = new Vector3(rawMove.x, 0, rawMove.y);
+            float multiplier = isGround ? 1f : 1f - airControlMultiplier;
+            transform.Translate(moveDir.normalized * moveSpeed * multiplier * Time.deltaTime, Space.World);
+
+            if (moveDir.sqrMagnitude > 0.01f)
+            {
+                Quaternion targetRot = Quaternion.LookRotation(moveDir, Vector3.up);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, rotationSpeed * Time.deltaTime);
+            }
+        }
+
+        SendInputServerRpc(rawMove, jump);
+
+        isGround = IsGrounded();
+        receivedJump = false;
+    }
+
+
+    [ServerRpc(RequireOwnership = false)]
+    private void SendInputServerRpc(Vector2 move, bool jump, ServerRpcParams rpcParams = default)
+    {
+        receivedMove = move;
+
+        if (jump)
+            jumpBufferTimer = jumpBufferTime;
+    }
+    private void FixedUpdate()
+    {
+        if (!IsServer) return;
+
+        if (jumpBufferTimer > 0f)
+        {
+            ApplyJump(true);
+            jumpBufferTimer -= Time.fixedDeltaTime;
+        }
+        else
+        {
+            ApplyJump(false);
+        }
+
+        ApplyMovement(receivedMove);
+        ApplyGravity();
+        AnimationHandler();
+    }
+
+
+    private void ApplyMovement(Vector2 moveInput)
+    {
+        Vector3 inputDir = new Vector3(moveInput.x, 0f, moveInput.y);
+
+        if (inputDir.sqrMagnitude < 0.01f) return;
+
+        float multiplier = IsGrounded() ? 1f : 1f - airControlMultiplier;
+        Vector3 move = inputDir.normalized * moveSpeed * multiplier * Time.fixedDeltaTime;
+
+        rb.MovePosition(rb.position + move);
+
+        Quaternion targetRot = Quaternion.LookRotation(inputDir, Vector3.up);
+        rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRot, rotationSpeed * Time.fixedDeltaTime));
+    }
+
+    private void ApplyJump(bool jump)
+    {
+        if (jump && IsGrounded() && Time.time >= lastJumpTime + jumpCooldown)
+        {
+            Vector3 vel = rb.linearVelocity;
+            rb.linearVelocity = new Vector3(vel.x, jumpForce, vel.z);
+            lastJumpTime = Time.time;
+        }
+    }
+
+    private void ApplyGravity()
+    {
+        if (!IsGrounded())
+        {
+            rb.AddForce(Physics.gravity * gravityMultiplier, ForceMode.Acceleration);
+        }
+    }
+
+    private bool IsGrounded()
+    {
+        return Physics.Raycast(transform.position + Vector3.up * 0.1f, Vector3.down, groundCheckDistance, groundLayer);
     }
 
     private void OnMove(InputAction.CallbackContext ctx)
@@ -102,134 +202,69 @@ public class PlayerMovement_B : NetworkBehaviour
 
     private void OnJump(InputAction.CallbackContext ctx)
     {
-        jumpInput = true;
+        jumpPressed = true;
     }
 
-    private void FixedUpdate()
+    private void OnTriggerEnter(Collider other)
     {
-        //if (!IsServer) return;
-        CustomGravity();
-        HandleMovement();
-        HandleJump();
-        AnimationHandler();
-    }
-
-    private void HandleMovement()
-    {
-        Vector3 inputDirection = new Vector3(moveInput.x, 0f, moveInput.y);
-        //Debug.Log($"[Move] Input: {inputDirection}, Position: {transform.position}");
-        if (inputDirection.sqrMagnitude > 0.01f)
+        if (other.CompareTag("deadLine"))
         {
-            //move   
-            var controlMultiplier = IsGrounded() ? 1f : 1-airControlMultiplier; // change the speed based on players grounded state.
-            Vector3 move = inputDirection.normalized * moveSpeed * controlMultiplier*Time.fixedDeltaTime;
-            rb.MovePosition(rb.position + move);
-
-           //rotate
-            Quaternion targetRotation = Quaternion.LookRotation(inputDirection, Vector3.up); 
-            rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime));
-
-            
+            DeadServerRpc();
         }
     }
-
-    private void HandleJump()
-    {
-        if (jumpInput && IsGrounded() && Time.time >= lastJumpTime + jumpCooldown) 
-        {
-            Vector3 currentVelocity = rb.linearVelocity;
-            rb.linearVelocity = new Vector3(currentVelocity.x, jumpForce, currentVelocity.z);
-            lastJumpTime = Time.time; 
-        }
-
-        jumpInput = false;
-    }
-    private void CustomGravity()
-    {
-        if (!IsGrounded())
-        {
-            Vector3 gravity = Physics.gravity * gravityMultiplier;
-            rb.AddForce(gravity, ForceMode.Acceleration);
-        }
-    }
-
-    private bool IsGrounded()
-    {
-        
-        return Physics.Raycast(transform.position + Vector3.up * 0.1f, Vector3.down, groundCheckDistance, groundLayer);
-    }
-
 
     [ServerRpc(RequireOwnership = false)]
-    public void DeadServerRPC()
+    public void DeadServerRpc()
     {
         isAlive.Value = false;
-
-        GameManager_B.instance.RemoveAlivePlayerServerRpc(OwnerClientId); // EKLENECEK
-
-        //ShowDeathEffectClientRpc(transform.position);
+        GameManager_B.instance.RemoveAlivePlayerServerRpc(OwnerClientId);
+        ShowDeathEffectClientRpc(transform.position);
         GetComponent<NetworkObject>().Despawn();
     }
 
     [ClientRpc]
-    void ShowDeathEffectClientRPC(Vector3 transform)
+    private void ShowDeathEffectClientRpc(Vector3 pos)
     {
-        if (deathParticle != null)
-        {
-            Instantiate(deathParticle, transform, Quaternion.identity);
-        }
-
-        if (deathSound != null)
-        {
-            audioSource.PlayOneShot(deathSound);
-        }
-        
+        if (deathParticle) Instantiate(deathParticle, pos, Quaternion.identity);
+        if (deathSound) audioSource.PlayOneShot(deathSound);
     }
-    private void OnTriggerEnter(Collider other)
+
+    [ServerRpc(RequireOwnership = false)]
+    void SetAnimBoolServerRpc(string param, bool value)
     {
-        if (other.gameObject.CompareTag("deadLine"))
-        {
-            DeadServerRPC();
-         
-        }
+        SetAnimBoolClientRpc(param, value);
     }
 
     [ClientRpc]
-    void SetAnimBoolClientRpc(string paramName, bool value)
+    void SetAnimBoolClientRpc(string param, bool value)
     {
-        if (!IsOwner) 
-        animator.SetBool(paramName, value);
+        //Debug.Log($"[ClientRpc] SetBool {param} = {value} on {OwnerClientId}");
+
+        if (animator == null)
+        {
+            Debug.LogError($"Animator is NULL on client {OwnerClientId}!");
+            return;
+        }
+
+        animator.SetBool(param, value);
     }
 
-    [ServerRpc]
-    void SetAnimBoolServerRpc(string paramName, bool value)
-    {
-        SetAnimBoolClientRpc(paramName, value);
-    }
 
     void AnimationHandler()
     {
-        if (!IsOwner) return;
-
         Vector3 velocity = rb.linearVelocity;
         bool isGrounded = IsGrounded();
-        bool isTryingToMove = moveInput.magnitude > 0.1f;
+        bool isTryingToMove = receivedMove.magnitude > 0.1f;
 
         if (isGrounded && isTryingToMove)
         {
-            if (!animator.GetBool("isRunning"))
-            {
-                animator.SetBool("isRunning", true);
-                SetAnimBoolServerRpc("isRunning", true);
-            }
+            animator.SetBool("isRunning", true);
+            SetAnimBoolServerRpc("isRunning", true);
         }
         else if (isGrounded && !isTryingToMove && animator.GetBool("isRunning"))
         {
             animator.SetBool("isRunning", false);
             SetAnimBoolServerRpc("isRunning", false);
-
-            animator.SetTrigger("isRunStopping");
-
         }
 
         if (isGrounded)
@@ -242,8 +277,8 @@ public class PlayerMovement_B : NetworkBehaviour
         else if (velocity.y > 0.1f)
         {
             animator.SetBool("isJumping", true);
-            animator.SetBool("isFalling", false);
             SetAnimBoolServerRpc("isJumping", true);
+            animator.SetBool("isFalling", false);
             SetAnimBoolServerRpc("isFalling", false);
         }
         else if (velocity.y < -0.1f)
@@ -254,11 +289,6 @@ public class PlayerMovement_B : NetworkBehaviour
             SetAnimBoolServerRpc("isFalling", true);
         }
     }
-
-
-
-
-
 
 
 }

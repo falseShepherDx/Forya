@@ -3563,6 +3563,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cf202fc7468f2ad4ea56eb18ad1b3fe3, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5688809672624275888}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cf202fc7468f2ad4ea56eb18ad1b3fe3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -4587739954509466248}
   m_SourcePrefab: {fileID: 100100000, guid: cf202fc7468f2ad4ea56eb18ad1b3fe3, type: 3}
 --- !u!1 &1138161653848136542 stripped
 GameObject:
@@ -3615,9 +3618,9 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 1
+  m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
 --- !u!136 &6278894845525451963
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3640,7 +3643,7 @@ CapsuleCollider:
   m_Radius: 0.25
   m_Height: 1.8
   m_Direction: 1
-  m_Center: {x: 0, y: 0.9, z: 0}
+  m_Center: {x: 0, y: 0.85, z: 0}
 --- !u!114 &7524987160218741522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3700,15 +3703,15 @@ MonoBehaviour:
   jumpForce: 9
   jumpCooldown: 0.2
   gravityMultiplier: 2
-  groundCheckDistance: 0.3
+  groundCheckDistance: 0.5
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  animator: {fileID: 0}
-  networkAnimator: {fileID: 0}
-  isGround: 0
   deathParticle: {fileID: 1607639662943796, guid: a1a36200a3c61b34b9abfaed1373f4cc, type: 3}
   deathSound: {fileID: 0}
+  animator: {fileID: 0}
+  audioSource: {fileID: 0}
+  isGround: 0
   isAlive:
     m_InternalValue: 1
 --- !u!114 &230176668706247706
@@ -3748,7 +3751,7 @@ MonoBehaviour:
   RotationMaxInterpolationTime: 0.1
   ScaleLerpSmoothing: 1
   ScaleMaxInterpolationTime: 0.1
-  AuthorityMode: 1
+  AuthorityMode: 0
   TickSyncChildren: 0
   UseUnreliableDeltas: 0
   SyncPositionX: 1
@@ -3867,3 +3870,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-4587739954509466248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1138161653848136542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkRigidbodyBaseExpanded: 0
+  UseRigidBodyForMotion: 0
+  AutoUpdateKinematicState: 1
+  AutoSetKinematicOnDespawn: 1
