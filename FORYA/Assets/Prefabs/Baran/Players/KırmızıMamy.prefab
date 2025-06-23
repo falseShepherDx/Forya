@@ -3703,12 +3703,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  moveSpeed: 8
+  moveSpeed: 10
   rotationSpeed: 10
   airControlMultiplier: 0.3
-  jumpForce: 7
+  jumpForce: 10
   jumpCooldown: 0.5
-  gravityMultiplier: 2
+  gravityMultiplier: 1.8
   groundCheckDistance: 0.3
   groundLayer:
     serializedVersion: 2
