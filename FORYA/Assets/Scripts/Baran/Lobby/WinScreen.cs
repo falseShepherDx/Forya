@@ -1,6 +1,7 @@
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class WinScreen : NetworkBehaviour
@@ -31,8 +32,20 @@ public class WinScreen : NetworkBehaviour
     {
         if (IsServer)
         {
-            NetworkManager.SceneManager.LoadScene(nextGame, UnityEngine.SceneManagement.LoadSceneMode.Single);
+            DespawnAllPlayers();
+            NetworkManager.SceneManager.LoadScene(nextGame, LoadSceneMode.Single);
         }
-       
     }
+
+    private void DespawnAllPlayers()
+    {
+        foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
+        {
+            if (client.PlayerObject != null && client.PlayerObject.IsSpawned)
+            {
+                client.PlayerObject.Despawn(true);
+            }
+        }
+    }
+
 }
