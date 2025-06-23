@@ -27,9 +27,9 @@ public class Cannon : NetworkBehaviour
     }
     public override void OnNetworkSpawn()
     {
+        audioSource = GetComponent<AudioSource>() ?? gameObject.AddComponent<AudioSource>();
         if (!IsServer) return;
         if (!animator) animator = GetComponent<Animator>();
-        audioSource = GetComponent<AudioSource>() ?? gameObject.AddComponent<AudioSource>();
         StartCoroutine(CannonRoutine());
     }
     IEnumerator CannonRoutine()
@@ -56,13 +56,14 @@ public class Cannon : NetworkBehaviour
         if (fireVFX)
             Destroy(Instantiate(fireVFX, pos, Quaternion.identity), 2f);
 
-        if (fireSfx)
+        if (fireSfx && audioSource)
             audioSource.PlayOneShot(fireSfx);
     }
     public void OnSinkComplete()
     {
         if (!IsServer) return;
         PlaySinkVFXClientRpc(bubbleTransform.position);
+        Invoke(nameof(SinkCompleted),0.1f);
     }
     [ClientRpc]
     void PlaySinkVFXClientRpc(Vector3 pos)
@@ -71,7 +72,6 @@ public class Cannon : NetworkBehaviour
             Destroy(Instantiate(sinkVFX, pos, Quaternion.identity), 1f);
         if (sinkSFX)
             audioSource.PlayOneShot(sinkSFX);
-        Invoke(nameof(SinkCompleted),0.1f);
     }
 
     private void SinkCompleted()
