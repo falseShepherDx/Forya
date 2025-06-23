@@ -48,22 +48,30 @@ public class Cannon : NetworkBehaviour
         var netObj = ball.GetComponent<NetworkObject>();
         netObj.Spawn(true);
         ball.GetComponent<Rigidbody>().AddForce(targetDirection * shootForce, ForceMode.Impulse);
-
+        PlayFireVFXClientRpc(firePoint.position);
+    }
+    [ClientRpc]
+    void PlayFireVFXClientRpc(Vector3 pos)
+    {
         if (fireVFX)
-            Destroy(Instantiate(fireVFX, firePoint.position, Quaternion.identity), 2f);
+            Destroy(Instantiate(fireVFX, pos, Quaternion.identity), 2f);
+
         if (fireSfx)
             audioSource.PlayOneShot(fireSfx);
     }
     public void OnSinkComplete()
     {
-        
         if (!IsServer) return;
-       
+        PlaySinkVFXClientRpc(bubbleTransform.position);
+    }
+    [ClientRpc]
+    void PlaySinkVFXClientRpc(Vector3 pos)
+    {
         if (sinkVFX)
-            Destroy(Instantiate(sinkVFX, bubbleTransform.position, Quaternion.identity), 1f);
-        if(sinkSFX)
+            Destroy(Instantiate(sinkVFX, pos, Quaternion.identity), 1f);
+        if (sinkSFX)
             audioSource.PlayOneShot(sinkSFX);
-       Invoke(nameof(SinkCompleted),0.1f);
+        Invoke(nameof(SinkCompleted),0.1f);
     }
 
     private void SinkCompleted()

@@ -3730,9 +3730,9 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   cannonBallPrefab: {fileID: 8362081407942823256, guid: 096edad995d61ea45afa134933e124cc, type: 3}
   firePoint: {fileID: 8925940069798606177}
-  shootForce: 45
+  shootForce: 50
   animator: {fileID: 5302829857066103218}
-  fireDelay: 1.5
+  fireDelay: 1.2
   fireVFX: {fileID: 1833268098726028, guid: f72f0eb4a0fb5934fab797add8da8711, type: 3}
   sinkVFX: {fileID: 1932552764689772, guid: 55c7caedf64d935419e00dac831d338a, type: 3}
   fireSfx: {fileID: 8300000, guid: e42829050a2e1d44c8322d47b36ba37a, type: 3}
