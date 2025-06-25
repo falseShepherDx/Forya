@@ -46,9 +46,30 @@ public class CharacterSpawner : NetworkBehaviour
             Rigidbody rb = player.GetComponent<Rigidbody>();
             rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
-
+            string nick = LobbyManager.instance.GetNameByClientId(clientId);
+            SetPlayerNameClientRpc(clientId, nick);
             playerIndex++;
         }
     }
+
+    [ClientRpc]
+    private void SetPlayerNameClientRpc(ulong clientId, string playerName)
+    {
+        foreach (var player in FindObjectsOfType<NetworkObject>())
+        {
+            if (player.OwnerClientId == clientId)
+            {
+                var nameText = player.transform.Find("NameText")?.GetComponent<TextMeshPro>();
+                if (nameText != null)
+                    nameText.text = playerName;
+                else
+                {
+                    Debug.Log("TextMeshyok");
+                }
+            }
+        }
+    }
+
+
 
 }
